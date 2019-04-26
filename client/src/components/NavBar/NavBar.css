@@ -1,0 +1,103 @@
+
+.NavBarContent .ShopName{
+    color: #222;
+    height: 50px;
+    line-height: 50px;
+    font-size: 24px;
+    font-weight: bold;
+    float: left;
+}
+.NavBarContent{
+    z-index: 1;
+    height: 55px;
+    position: relative;
+    top: 0;
+    left: 0;
+    padding: 0 50px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.NavBarContent nav{
+    float: right;
+}
+
+.NavBarContent nav ul{
+    margin: 0;
+    padding: 0;
+    display: flex;
+
+}
+
+.NavBarContent nav ul li{
+    list-style: none;
+}
+
+.NavBarContent nav ul li a{
+    height: 55px;
+    line-height: 50px;
+    padding: 0 20px;
+    color: #222;
+    text-decoration: none;
+    display: block;
+}
+
+.menu-toggle:hover,
+.NavBarContent nav ul li a:hover,
+.NavBarContent nav ul li a.active{
+    color: #fff;
+    background: #17a2b8;
+    transition: 0.3s;
+}
+
+.menu-toggle{
+    height: 55px;
+    color: #222;
+    padding: 0px 15px 0px 15px;
+    float: right;
+    line-height: 50ps;
+    font-size: 32px;
+    cursor: pointer;
+    display: none;
+}
+
+@media(max-width: 991px){
+    .NavBarContent{
+        padding: 0 20px;
+    }
+    .menu-toggle{
+        display: block;
+    }
+    .NavBarContent nav ul li a{
+        background: #fff;
+        border-bottom: 1px solid rgba(0,0,0,.2);
+        transition: 0.5s;
+    }
+
+    .menu-toggle-active{
+        background: #17a2b8;
+        color: #fff;
+         transition: 0.3s;
+    }
+
+    .NavBarContent nav.active{
+        display: block !important;
+    }
+
+    .NavBarContent nav{
+        display: none;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #333;
+        top: 55px;
+        left: 0;
+        transition: 0.5s;
+    }
+    .NavBarContent nav ul{
+        display: block;
+        text-align: center;
+    }
+
+}

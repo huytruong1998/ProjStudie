@@ -1,0 +1,53 @@
+#Footer{
+    border-top: 1px solid rgba(0,0,0,0.1);
+    background: #f7f7f7;
+    padding: 40px 50px  80px 50px;
+    
+}
+
+#Footer a{
+    color: #222;
+    font-size: 13px;
+}
+
+#Footer ul{
+margin: 0;
+padding: 0;
+}
+
+#Footer ul li{
+list-style: none;
+
+}
+
+.sub-input{
+    border: 2px solid #2d2d2d;
+    padding: 10px;
+    width: 70%;
+    box-sizing: border-box;
+    float: left;
+}
+
+.sub-button{
+    padding: 12px;
+    width: 30%;
+    float: right;
+    background: #2d2d2d;
+    border:none;
+    color: white;
+    font-weight: bold;
+}
+
+.form-sub{
+    font-size: 10px;
+    margin: 20px 40px 40px 0;
+}
+
+.social-media{
+    margin-top: 80px
+}
+
+.contact-icon{
+    margin-right: 10px;
+    font-size: 18px;
+}
