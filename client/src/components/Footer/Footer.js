@@ -34,10 +34,10 @@ class Footer extends Component {
                         </form>
                            <div className="social-media">
                                 <h6><b>Follow us in scoial media</b></h6>
-                                <i class="contact-icon fab fa-facebook-f"></i>
-                                <i class="contact-icon fab fa-instagram"></i>
-                                <i class="contact-icon fab fa-twitter"></i>
-                                <i class="contact-icon fab fa-youtube"></i>
+                                <i className="contact-icon fab fa-facebook-f"></i>
+                                <i className="contact-icon fab fa-instagram"></i>
+                                <i className="contact-icon fab fa-twitter"></i>
+                                <i className="contact-icon fab fa-youtube"></i>
                            </div>
                         </div>
                 </div>
