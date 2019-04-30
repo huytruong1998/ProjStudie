@@ -49,9 +49,8 @@ router.post('/register', (req, res) => {
                 });
             });
         } else {
-            res.json({
-                msg: 'this email already register'
-            });
+            errors.password = 'This email already register';
+            return res.status(400).json(errors);
         }
     });
 });
@@ -89,11 +88,13 @@ router.post('/login', (req, res) => {
                         });
                     }); // log out in 1 hr
                 } else {
-                    res.json('fail');
+                    errors.password = 'Password incorrect';
+                    return res.status(400).json(errors);
                 }
             });
         } else {
-            res.json('There are no account exist');
+            errors.password = 'There are no account exist';
+            return res.status(400).json(errors);
         }
     });
 })

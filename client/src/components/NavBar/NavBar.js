@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './NavBar.css';
+import { Link } from "react-router-dom";
 
 class NavBar extends Component {
     constructor(){
@@ -21,12 +22,12 @@ class NavBar extends Component {
             </div>
                 <nav className={this.state.toggle ? 'active' : ''} >
                     <ul>
-                        <li><a href="#">Home</a></li>
+                        <li><Link to="/">Home</Link></li>
                         <li><a href="#">Product</a></li>
                         <li><a href="#">Offer</a></li>
                         <li><a href="#">Admin</a></li>
                         <li><a href="#"><i className="fas fa-search"></i></a></li>
-                        <li><a href="#">Login</a></li>
+                        <li><Link to="/login">Login</Link></li>
                     </ul>
             </nav>
                 <div className={this.state.toggle ? 'menu-toggle menu-toggle-active' : 'menu-toggle'} onClick={this.onToggleMenu.bind(this)}><i className='fa fa-bars' aria-hidden='true'></i></div>

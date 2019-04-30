@@ -3,7 +3,9 @@ import propTypes from "prop-types";
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
 import { registerUser } from '../../action/authActions';
+import classnames from "classnames";
 import './auth.css';
+import { Link } from "react-router-dom";
 
 class SignUp extends Component {
     constructor() {
@@ -56,34 +58,30 @@ class SignUp extends Component {
                     <h1 className="display-4 text-center">SIGN UP</h1>
                         <div className="authenticate-form-align">
                             <form className="authenticate-input" onSubmit={this.onSubmit}>
-                                <div className="form-group">
-                                    <input
-                                        type="name"
-                                        name="name"
-                                        className="form-control form-control-lg"
-                                        placeholder="NAME"
-                                        value={this.state.name}
-                                        onChange={this.onChange}
-                                    />
-
-                                </div>
+                        
                                 <div className="form-group">
                                     <input
                                         type="email"
                                         name="email"
-                                        className="form-control form-control-lg"
+                                        className={classnames("form-control form-control-lg", {
+                                            "is-invalid": errors.email
+                                        })}
                                         placeholder="EMAIL"
                                         value={this.state.email}
                                         onChange={this.onChange}
                                     />
-                   
+                                {errors.email && (
+                                    <div className="invalid-feedback">{errors.email}</div>
+                                )}
                                 </div>
 
                                 <div className="form-group">
                                     <input
                                         type="password"
                                         name="password"
-                                        className="form-control form-control-lg"
+                                    className={classnames("form-control form-control-lg", {
+                                        "is-invalid": errors.email
+                                    })}
                                         placeholder="PASSWORD"
                                         value={this.state.password}
                                         onChange={this.onChange}
@@ -98,7 +96,9 @@ class SignUp extends Component {
                                     <input
                                         type="password"
                                         name="password2"
-                                        className="form-control form-control-lg"
+                                    className={classnames("form-control form-control-lg", {
+                                        "is-invalid": errors.email
+                                    })}
                                         placeholder="CONFIRM PASSWORD"
                                         value={this.state.password2}
                                         onChange={this.onChange}
@@ -111,6 +111,10 @@ class SignUp extends Component {
                                 <button type="submit" className="btn btn-info btn-block mt-4" href="#">
                                     SIGN UP</button>
                             </form>
+                        <div className="sign-up-ask">
+                            <p>Already got an account?</p>
+                            <Link to="/login">Log in</Link>
+                        </div>
                         </div>
                     </div>
                 </div>
