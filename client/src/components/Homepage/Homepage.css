@@ -1,0 +1,177 @@
+
+.section{
+    padding: 0 100px;
+    background: url('../img/snowboard.jpg');
+    height: 650px;
+    display: flex;
+    background-size: cover;
+    align-items: center;
+    background-position: center center
+
+}
+
+.box-trans{
+    font-weight: bold;
+    font-size: 25px;
+    position: relative;
+    max-width: 50%;
+    padding: 70px;
+    background: rgba(246, 246, 246,.9);
+    box-shadow: 0 5px 15px rgba(0,0,0,.2);
+    text-align: center;
+    color: #363636;
+}
+
+.box-trans h1 {
+    color: #62aaa7;
+}
+
+.box-trans button{
+    background: #b82b21;
+    color: #f6f6f6;
+     padding: 5px 30px 5px 30px;
+     border: none;
+     
+}
+
+.discount {
+ color: #b82b21;
+
+}
+
+/* Item section */
+
+
+
+.product-style-grid{
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+    justify-items: center;
+}
+
+.product-col{
+    width: 300px;
+    height: 300px;
+    background-size: 300px;
+    justify-items: center;
+    background-color:  #f6f6f6;
+    text-align: center;
+    background-repeat: no-repeat;
+    margin: 15px;
+}
+
+.tag{
+    background: rgba(246, 246, 246,.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.tag:hover{
+    background: rgba(246, 246, 246,.7);
+    font-size: 40px;
+}
+
+.tag a{
+    
+    color: #363636;
+    text-decoration: none;
+}
+
+
+/*Popular*/
+.popular-section{
+    margin: 50px;
+    text-align: center;
+}
+
+.popular-section h2{
+   font-weight: bold;
+}
+
+.popular-style-grid{
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+    justify-items: center;
+}
+
+
+.product-popular-col-img{
+    position: relative;
+    width: 250px;
+    height: 250px;
+    background-size: 250px;
+    justify-items: center;
+    background-color:  #D3D3D3;
+    text-align: center;
+    background-repeat: no-repeat;
+    margin-bottom: 15px;
+}
+
+
+.product-popular-col-img:hover .popular-show-cart button{
+    display: block;
+}
+
+
+.popular-show-cart{
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 100%;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 25px;
+}
+
+.popular-show-cart button{
+    width: 100%;
+    padding: 13px 0px 13px 0px;
+    border: none;
+    background: #62aaa7;
+    font-weight: bold;
+    color: #f6f6f6;
+    display: none;
+}
+
+.popular-show-cart button:hover{
+    background: #b82b21;
+    color: #f6f6f6;
+    transition: 0.5s;
+}
+
+.discount-on-product{
+    position: absolute;
+    top: 10px;
+    left: -15px;
+    padding: 3px 20px;
+    background-color: #b82b21;
+    color: white;
+    box-shadow:3px 3px rgba(0, 0, 0, 0.15);
+}
+
+
+.product-description{
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 700;
+
+}
+
+
+.product-description a{
+    font-size: 15px;
+    color: #767676 !important
+
+}
+
+.original-price{
+text-decoration: line-through;
+    margin-right: 10px;
+    color: #aaaaaa;
+}

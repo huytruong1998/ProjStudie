@@ -18,16 +18,16 @@ class NavBar extends Component {
         return (
             <div className="NavBarContent">
             <div className='ShopName'>
-                 <h1>ShopMe</h1>
+                    <h1><b>ShopMe</b> </h1>
             </div>
                 <nav className={this.state.toggle ? 'active' : ''} >
                     <ul>
-                        <li><Link to="/">Home</Link></li>
-                        <li><a href="#">Product</a></li>
-                        <li><a href="#">Offer</a></li>
-                        <li><a href="#">Admin</a></li>
-                        <li><a href="#"><i className="fas fa-search"></i></a></li>
-                        <li><Link to="/login">Login</Link></li>
+                        <li><b><Link to="/">Home</Link></b> </li>
+                        <li><b><a href="#">Product</a></b> </li>
+                        <li><b><a href="#">Offer</a></b></li>
+                        <li><b><a href="#">Admin</a></b></li>
+                        <li><b><a href="#"><i className="fas fa-search"></i></a></b></li>
+                        <li><b><Link to="/login">Login</Link></b> </li>
                     </ul>
             </nav>
                 <div className={this.state.toggle ? 'menu-toggle menu-toggle-active' : 'menu-toggle'} onClick={this.onToggleMenu.bind(this)}><i className='fa fa-bars' aria-hidden='true'></i></div>
