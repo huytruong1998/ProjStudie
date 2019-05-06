@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './NavBar.css';
 import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { logoutUser} from '../../action/authActions';
 
 class NavBar extends Component {
     constructor(){
@@ -10,9 +13,13 @@ class NavBar extends Component {
         }
     }
 
+    logoutUser(){
+        this.props.logoutUser();
+    }
 
     onToggleMenu(){
-        this.setState({toggle:!this.state.toggle})
+        this.setState({toggle:!this.state.toggle});
+   
     }
     render() {
         return (
@@ -23,11 +30,20 @@ class NavBar extends Component {
                 <nav className={this.state.toggle ? 'active' : ''} >
                     <ul>
                         <li><b><Link to="/">Home</Link></b> </li>
-                        <li><b><a href="#">Product</a></b> </li>
+                        <li><b><a href="#">Product</a></b></li>
                         <li><b><a href="#">Offer</a></b></li>
                         <li><b><a href="#">Admin</a></b></li>
-                        <li><b><a href="#"><i className="fas fa-search"></i></a></b></li>
-                        <li><b><Link to="/login">Login</Link></b> </li>
+                        <li><b><a href="#"><i className="fas fa-search"></i></a></b>
+                        
+                        </li>
+                        {this.props.auth.isAuthenticated ? (<li><b><a href="#"><i className="fas fa-user"></i></a></b>
+                            <ul>
+                                <li><a href="#">Profile</a></li>
+                                <li onClick={this.logoutUser.bind(this)} ><a href="#">Logout</a></li>
+                            </ul>
+                        </li>) : (<li><b><Link to="/login">Login</Link></b> </li>)}
+                        
+                        
                     </ul>
             </nav>
                 <div className={this.state.toggle ? 'menu-toggle menu-toggle-active' : 'menu-toggle'} onClick={this.onToggleMenu.bind(this)}><i className='fa fa-bars' aria-hidden='true'></i></div>
@@ -37,4 +53,18 @@ class NavBar extends Component {
     }
 }
 
-export default NavBar;
+
+NavBar.propTypes = {
+    logoutUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+    auth: state.auth
+});
+
+
+export default connect(
+    mapStateToProps,
+    {logoutUser}
+)(NavBar);

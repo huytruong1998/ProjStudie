@@ -99,7 +99,9 @@
     grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
     justify-items: center;
 }
-
+.product-popular-col{
+    margin-top: 50px;
+}
 
 .product-popular-col-img{
     position: relative;
@@ -174,4 +176,19 @@
 text-decoration: line-through;
     margin-right: 10px;
     color: #aaaaaa;
+}
+
+
+/*mobile*/
+
+@media(max-width: 991px){
+    .box-trans{
+    max-width: 100%;
+    }
+
+    .section{
+        justify-items: center;
+        justify-content: center;
+        padding: 0 40px;
+    }
 }
