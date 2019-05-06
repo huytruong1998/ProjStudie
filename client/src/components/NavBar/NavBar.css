@@ -1,6 +1,6 @@
 
 .NavBarContent .ShopName{
-    color: #222;
+    color: #b82b21;
     height: 50px;
     line-height: 50px;
     font-size: 24px;
@@ -10,7 +10,8 @@
 .NavBarContent{
     z-index: 1;
     height: 55px;
-    position: relative;
+    position: absolute;
+    background: white;
     top: 0;
     left: 0;
     padding: 0 50px;
@@ -31,29 +32,66 @@
 }
 
 .NavBarContent nav ul li{
+    position: relative;
     list-style: none;
 }
 
+.NavBarContent nav ul li ul{
+    position: absolute;
+    display: none;
+    
+}
+
+.NavBarContent nav ul li ul li{
+    position: relative;
+
+    left: -80px;
+    width: 200px;
+    height: 45px;
+}
+
+.NavBarContent nav ul li ul li a{
+    border:none;
+    height: 45px;
+     background: #fff;
+     text-align: center;
+     line-height: 40px;
+     border-bottom: 1px solid #c4c2c2;
+     background: #f6f0e9;
+}
+
+.NavBarContent nav ul li ul li a:hover{
+
+     background: #f7e2ca;
+}
+
+
+
 .NavBarContent nav ul li a{
+    border-left: 1px solid #ebebeb;
     height: 55px;
     line-height: 50px;
     padding: 0 20px;
-    color: #222;
+    color: #b82b21;
     text-decoration: none;
+    display: block;
+}
+
+.NavBarContent nav ul li:hover ul{
     display: block;
 }
 
 .menu-toggle:hover,
 .NavBarContent nav ul li a:hover,
 .NavBarContent nav ul li a.active{
-    color: #fff;
-    background: #17a2b8;
+    color: #b82b21;
     transition: 0.3s;
+    background: #f6f0e9;
 }
 
 .menu-toggle{
     height: 55px;
-    color: #222;
+    color: #b82b21;
     padding: 0px 15px 0px 15px;
     float: right;
     line-height: 50ps;
@@ -70,9 +108,10 @@
         display: block;
     }
     .NavBarContent nav ul li a{
+    
         background: #fff;
         border-bottom: 1px solid rgba(0,0,0,.2);
-        transition: 0.5s;
+        
     }
 
     .menu-toggle-active{
@@ -99,5 +138,16 @@
         display: block;
         text-align: center;
     }
+
+    .NavBarContent nav ul li ul{
+    position: relative;  
+    }
+
+    .NavBarContent nav ul li ul li{
+    position: relative;
+    left: 0px;
+    width: 100%;
+    height: 45px;
+}
 
 }
