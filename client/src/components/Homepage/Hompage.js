@@ -47,13 +47,14 @@ class Homepage extends Component {
                     <div className="product-popular-col">
                             <div style={{ backgroundImage: `url(${clothes})` }} className="product-popular-col-img">
                                 <div className="popular-show-cart">
-                                    <button>ADD TO CART</button>
+                                    <button>VIEW DETAIL</button>
                                 </div>
                             </div>
                             <div className="product-description">
                                 <a>The North Face</a>
                                 <h6><b>Warm Coat, Egypt</b> </h6>
-                                <span className='original-price'>$90.00</span><span>$70.00</span>
+                                <span className='original-price'>$90.00</span><span>$70.00</span> <br/>
+
                             </div>
                     </div>
                         <div className="product-popular-col">
@@ -63,7 +64,7 @@ class Homepage extends Component {
                             </div>
                                 <div className="popular-show-cart">
 
-                                    <button>ADD TO CART</button>
+                                    <button>VIEW DETAIL</button>
                                 </div>
                             </div>
                             <div className="product-description">
@@ -76,7 +77,7 @@ class Homepage extends Component {
                         <div className="product-popular-col">
                             <div style={{ backgroundImage: `url(${clothes})` }} className="product-popular-col-img">
                                 <div className="popular-show-cart">
-                                    <button>ADD TO CART</button>
+                                    <button>VIEW DETAIL</button>
                                 </div>
                             </div>
                             <div className="product-description">
@@ -88,7 +89,7 @@ class Homepage extends Component {
                         <div className="product-popular-col">
                             <div style={{ backgroundImage: `url(${clothes})` }} className="product-popular-col-img">
                                 <div className="popular-show-cart">
-                                    <button>ADD TO CART</button>
+                                    <button>VIEW DETAIL</button>
                                 </div>
                             </div>
                             <div className="product-description">

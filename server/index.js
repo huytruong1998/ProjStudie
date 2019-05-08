@@ -7,7 +7,8 @@ const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const passport = require('passport');
 
-const users = require('./api/auth/users')
+const users = require('./api/auth/users');
+const products = require('./api/product/products');
 
 var db = require('./database')
 
@@ -52,6 +53,7 @@ app.use(express.static('dist'));
 app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }));
 
 app.use('/api/users', users);
+app.use('/api/products', products);
 
 app.listen(PORT, ()=>{
     console.log(`Listening on port ${PORT}`);
