@@ -17,6 +17,7 @@
 
 .category ul{
     padding: 0px;
+    font-size: 15px;
 }
 .category ul li {
     list-style: none;
@@ -25,7 +26,7 @@
 
 .category ul li ul{
     padding-left: 40px;
-    font-size: 15px;
+    font-size: 13px;
 }
 
 .category ul li input{

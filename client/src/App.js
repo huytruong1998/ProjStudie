@@ -6,7 +6,7 @@ import store from './store';
 import { Provider } from 'react-redux';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
-import Product from './components/Product/Product';
+import ProductPage from './components/Product/ProductPage';
 
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
@@ -44,7 +44,7 @@ class App extends Component {
             <Route exact path="/" component={Homepage} />
             <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={Signup} />
-              <Route exact path="/product" component={Product} />
+              <Route exact path="/product" component={ProductPage} />
           </div>
           <Footer />
         </div>
