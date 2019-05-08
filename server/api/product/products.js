@@ -22,13 +22,12 @@ router.get('/test', (req, res) => {
 
 
 router.get('/showallproducts', (req,res) =>{
-    db.query('SELECT * FROM public.products', (err, user) => {
-        if (err.error) {
-            return res.status(404).json(err)
+    Product.showallproducts(function(err,products){
+        if(err){
+            return res.json(err);
         }
-        return res.json(user)
-
-    });
+        return  res.json(products);
+    })
 })
 
 router.post('/addproducts',(req,res) =>{

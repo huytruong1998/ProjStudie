@@ -23,6 +23,15 @@ class Product {
         }
         );
     }
+
+    static showallproducts(callback){
+        db.query('SELECT * FROM public.products',(err,res)=>{
+            if(err.errors){
+                return callback(err)
+            }
+            callback(res)
+        })
+    }
 }
 
 module.exports = Product;

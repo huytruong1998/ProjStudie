@@ -131,7 +131,7 @@ class Product extends Component {
                                 <span className='original-price'>$90.00</span><span>$70.00</span> <br />
 
                             </div>
-                            </div>
+                        </div>
                         </div>
                 </div>  
             </div>
