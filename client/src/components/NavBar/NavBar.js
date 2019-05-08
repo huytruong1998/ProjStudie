@@ -30,7 +30,7 @@ class NavBar extends Component {
                 <nav className={this.state.toggle ? 'active' : ''} >
                     <ul>
                         <li><b><Link to="/">Home</Link></b> </li>
-                        <li><b><a href="#">Product</a></b></li>
+                        <li><b><Link to="/product">Product</Link></b></li>
                         <li><b><a href="#">Offer</a></b></li>
                         <li><b><a href="#">Admin</a></b></li>
                         <li><b><a href="#"><i className="fas fa-search"></i></a></b>

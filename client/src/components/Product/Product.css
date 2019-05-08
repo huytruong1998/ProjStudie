@@ -1,0 +1,47 @@
+.product-container{
+    margin-top: 55px;
+
+}
+
+.filter-bar{
+    padding: 20px 20px 50px 50px;
+    clear: left;
+    width: 20%;
+}
+
+.product-bar{
+   
+    clear: right;
+    width: 80%;
+}
+
+.category ul{
+    padding: 0px;
+}
+.category ul li {
+    list-style: none;
+
+}
+
+.category ul li ul{
+    padding-left: 40px;
+    font-size: 15px;
+}
+
+.category ul li input{
+        vertical-align: middle;
+    margin: 0 3px 0 4px
+}
+
+.category ul li a{
+    color: #363636;
+}
+
+
+/* View product */
+
+.product-style-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+    justify-items: center;
+}

@@ -14,10 +14,7 @@ class User{
                 callback(res)
             }
         );
-    }
-
-
-    
+    }  
 }
 
 module.exports = User;
