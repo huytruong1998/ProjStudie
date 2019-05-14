@@ -121,6 +121,10 @@
 }
 
 
+.popular-show-cart:hover a{
+    color: #f6f6f6;
+}
+
 .popular-show-cart{
 
     display: flex;
@@ -144,8 +148,12 @@
 
 .popular-show-cart button:hover{
     background: #b82b21;
-    color: #f6f6f6;
     transition: 0.5s;
+}
+
+.popular-show-cart button:hover a{
+    color: #f6f6f6;
+    text-decoration: none;
 }
 
 .discount-on-product{

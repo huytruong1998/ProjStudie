@@ -9,7 +9,7 @@ module.exports = function validateAddProduct(data) {
 
     data.brand = !isEmpty(data.brand) ? data.brand : '';
     data.type = !isEmpty(data.type) ? data.type : '';
-    data.stocknumber = !isEmpty(data.stocknumber) ? data.stocknumber : '';
+    data.stocks = !isEmpty(data.stocks) ? data.stocks : '';
     data.tag = !isEmpty(data.tag) ? data.tag : '';
 
 
@@ -34,8 +34,8 @@ module.exports = function validateAddProduct(data) {
         errors.type = 'Type is invalid';
     }
 
-    if (!Validator.isNumeric(data.stocknumber)) {
-        errors.stocknumber = 'Stock number is invalid';
+    if (!Validator.isNumeric(data.stocks)) {
+        errors.stocks = 'Stock number is invalid';
     }
 
     if (Validator.isEmpty(data.image)) {
