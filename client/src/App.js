@@ -7,12 +7,14 @@ import { Provider } from 'react-redux';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
 import ProductPage from './components/Product/ProductPage';
+import ProductItem from './components/Product/ProductItem';
 
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Homepage from './components/Homepage/Hompage';
 import { setCurrentUser, logoutUser } from './action/authActions';
+import Cart from './components/Cart/Cart';
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -45,6 +47,8 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/product" component={ProductPage} />
+              <Route exact path="/cart" component={Cart} />
+              <Route exact path="/product/:id" component={ProductItem} />
           </div>
           <Footer />
         </div>

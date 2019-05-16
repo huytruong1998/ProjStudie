@@ -21,12 +21,22 @@ router.get('/test', (req, res) => {
 });
 
 
+
 router.get('/showallproducts', (req,res) =>{
     Product.showallproducts(function(err,products){
         if(err){
             return res.json(err);
         }
         return  res.json(products);
+    })
+})
+
+router.get('/:id', (req, res) => {
+    Product.getproduct(req.params.id, (err, products) => {
+        if (err) {
+            return res.json(err);
+        }
+        return res.json(products[0]);
     })
 })
 
@@ -38,7 +48,7 @@ router.post('/addproducts',(req,res) =>{
         return res.status(400).json(errors);
     }
     const uniqueID = uniqueString();
-    Product.addproduct(uniqueID, req.body.name, req.body.price, req.body.brand, req.body.type, req.body.stocknumber, req.body.image,req.body.tag, (err, product) => {
+    Product.addproduct(uniqueID, req.body.name, req.body.price, req.body.brand, req.body.type, req.body.stocks, req.body.image,req.body.tag, (err, product) => {
         if (err.length = 0) {
             return res.json(err)
         } else {
@@ -59,5 +69,23 @@ router.post('/deleteproducts', (req,res)=>{
     })
 })
 
+// router.post('/:id/buyproduct',(req,res)=>{
+//     Product.buyproduct(req.params.id, req.body.quantity, (err, product)=>{
+//         if (err.length = 0) {
+//             return res.json(err)
+//         } else {
+//             return res.json({ msg: 'Sucessfully buy product' })
+//         }
+//     })
+// })
+
+router.post('/buyproducts', (req, res) => {
+    Product.buyproduct(req.body.productid, req.body.quantity, (err, product) => {
+        if (err) {
+            return res.json(err);
+        }
+        return res.json(product);
+    })
+})
 
 module.exports = router;
