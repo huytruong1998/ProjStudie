@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './ProductPage.css';
+import _ from 'lodash';
 import clothes from '../img/clothes.png';
 import { connect } from 'react-redux';
-import { getproduct, buyproduct } from '../../action/products';
+import { getproduct, buyproduct, addtocart } from '../../action/products';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -24,12 +25,42 @@ class ProductItem extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
+    AddCart(id,quantity){
+        const cartData = {
+            productid: id,
+            quantity: quantity
+        }
+        const cartget = JSON.parse(localStorage.getItem('cart'));
+        let check = false;
+        if (cartget!== null ){
+            _.map(cartget,(item,index)=>{
+                if(item.productid === id){
+                    item.quantity = parseInt(item.quantity) + parseInt(quantity);
+                    check = true;
+                }
+            })
+            if (check === false){
+                cartget.push(cartData);
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cartget))
+        }else{
+            const newItem = [];
+            newItem.push(cartData);
+            localStorage.setItem('cart', JSON.stringify(newItem));
+        }
+        
+    }
+
     BuyItem(quantity){
         const buyData={
-            quantity:quantity,
+            quantity:parseInt(quantity),
             productid: this.props.match.params.id
         }
+
         this.props.buyproduct(buyData);
+
+
         this.props.getproduct(this.props.match.params.id);
     }
 
@@ -99,11 +130,11 @@ class ProductItem extends Component {
 
                         <div className="quantity">
                             <label htmlFor="quantity" className="a-native-dropdown">Qty:</label>
-                            <input type="number" min="0" step="1" maxlength="4"  value={this.state.quantity} name='quantity' onChange={this.onChange}/>
+                            <input type="number" min="0" step="1" maxLength="4"  value={this.state.quantity} name='quantity' onChange={this.onChange}/>
                         </div>
 
                         <div className='AddtoCart'>
-                            <button>Add to cart</button>
+                            <button onClick={() => this.AddCart(this.props.product.product[0].id, this.state.quantity)}>Add to cart</button>
                         </div>
                         
                         <div className='BuyNow'>
@@ -120,10 +151,11 @@ class ProductItem extends Component {
 
 
 const mapStateToProps = state => ({
-    product: state.product
+    product: state.product,
+    cart: state.cart
 });
 
 export default connect(
     mapStateToProps,
-    { getproduct, buyproduct}
+    { getproduct, buyproduct, addtocart}
 )(ProductItem);

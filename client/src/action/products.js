@@ -49,8 +49,9 @@ export const buyproduct = (buyData) => (dispatch) => {
         );
 }
 
-export const addtocart = () => ({
-    type: ADD_TO_CART
+export const addtocart = (cartData) => ({
+    type: ADD_TO_CART,
+    payload: cartData
 });
 
 export const clearallProduct = () => ({

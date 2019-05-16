@@ -81,11 +81,10 @@ router.post('/deleteproducts', (req,res)=>{
 
 router.post('/buyproducts', (req, res) => {
     Product.buyproduct(req.body.productid, req.body.quantity, (err, product) => {
-        if (err.length = 0) {
-            return res.json(err)
-        } else {
-            return res.json({ msg: 'Sucessfully buy products' })
+        if (err) {
+            return res.json(err);
         }
+        return res.json(product);
     })
 })
 

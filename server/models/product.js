@@ -43,11 +43,21 @@ class Product {
     }
 
     static buyproduct(productid,quanitty,callback){
-        db.query('UPDATE public.products SET stocks = stocks -$1 WHERE id=$2;', [quanitty, productid], (err, res) => {
+        db.query('SELECT stocks from public.products WHERE id=$1',[productid],(err,res)=>{
             if (err.errors) {
                 return callback(err)
             }
-            callback(res)
+            if (parseInt(res[0].stocks) >= parseInt(quanitty)) {
+                db.query('UPDATE public.products SET stocks = stocks -$1 WHERE id=$2;', [quanitty, productid],(error,result)=>{
+                    if (error.errors) {
+                        return callback(err)
+                    }
+                    callback('Successfully buy item')
+                })
+            }
+            else{
+                callback('Not enough in stocks')
+            }
         })
     }
 

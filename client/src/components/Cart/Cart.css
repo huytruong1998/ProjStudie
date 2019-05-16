@@ -1,0 +1,32 @@
+.cart-container{
+    margin: 70px 50px 0px 50px;
+
+}
+
+.item-container{
+        padding: 15px;
+    border: 1px solid rgba(0,0,0,0.1);
+    display:flex;
+}
+
+.productimg{
+    flex: 1;
+}
+
+.description{
+    flex:3;
+    padding: 0px 15px 0px 15px;
+}
+
+.priceqty{
+    flex:2;
+    display: flex;
+}
+
+.proprice{
+    flex: 1;
+}
+
+.proquantity{
+    flex:1;
+}
