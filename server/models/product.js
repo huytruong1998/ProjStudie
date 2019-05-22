@@ -61,6 +61,20 @@ class Product {
         })
     }
 
+    static checkstock(productid,quanitty, callback){
+        db.query('SELECT stocks from public.products WHERE id=$1', [productid], (err, res) => {
+            if (err.errors) {
+                return callback(err)
+            }
+            if (parseInt(res[0].stocks) >= parseInt(quanitty)) {
+                callback('true')
+            }
+            else {
+                callback('false')
+            }
+        })
+    }
+
     
 }
 

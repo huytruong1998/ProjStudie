@@ -7,6 +7,7 @@ const passport = require('passport');
 const User = require('../../models/product');
 const validateAddProduct = require('../../validation/addproducts');
 const Product = require('../../models/product');
+const validateCheckStockInput = require('../../validation/checkstock');
 
 const router = express.Router();
 
@@ -69,6 +70,7 @@ router.post('/deleteproducts', (req,res)=>{
     })
 })
 
+
 // router.post('/:id/buyproduct',(req,res)=>{
 //     Product.buyproduct(req.params.id, req.body.quantity, (err, product)=>{
 //         if (err.length = 0) {
@@ -78,6 +80,27 @@ router.post('/deleteproducts', (req,res)=>{
 //         }
 //     })
 // })
+
+router.post('/checkstock',(req,res)=>{
+    const { errors, isValid } = validateCheckStockInput(req.body);
+
+    // Check Validation
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+    db.query('SELECT stocks from public.products WHERE id=$1', [req.body.productid], (err, product) => {
+        if (err.length == 'undefined') {
+            res.status(404).json(err);
+        }
+        if (parseInt(product[0].stocks) >= parseInt(req.body.quantity)) {
+            res.json('true');
+        }
+        else {
+            errors.notenough = 'There is not enough item in stock';
+            return res.status(404).json(errors);
+        }
+    })
+})
 
 router.post('/buyproducts', (req, res) => {
     Product.buyproduct(req.body.productid, req.body.quantity, (err, product) => {

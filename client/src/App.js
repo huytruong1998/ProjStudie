@@ -15,6 +15,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Homepage from './components/Homepage/Hompage';
 import { setCurrentUser, logoutUser } from './action/authActions';
 import Cart from './components/Cart/Cart';
+import Admin from './components/Admin/Admin';
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -49,6 +50,8 @@ class App extends Component {
               <Route exact path="/product" component={ProductPage} />
               <Route exact path="/cart" component={Cart} />
               <Route exact path="/product/:id" component={ProductItem} />
+              <Route exact path="/admin" component={Admin} />
+
           </div>
           <Footer />
         </div>
