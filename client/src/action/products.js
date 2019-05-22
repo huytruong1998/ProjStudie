@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_ALL_PRODUCT, CLEAR_ALL_PRODUCT, GET_PRODUCT, ADD_TO_CART, GET_ERRORS, BUY_PRODUCT } from './types';
+import { GET_ALL_PRODUCT, CLEAR_ALL_PRODUCT, GET_PRODUCT, ADD_TO_CART, GET_ERRORS, BUY_PRODUCT, CHECK_STOCK, SHOW_CART } from './types';
 import setAuthToken from '../utils/setAuthToken';
 
 export const getallProduct = () => (dispatch) => {
@@ -53,6 +53,27 @@ export const addtocart = (cartData) => ({
     type: ADD_TO_CART,
     payload: cartData
 });
+
+export const showcart = ()=>({
+    type: SHOW_CART
+})
+
+export const checkstock = (itemData) => (dispatch) => {
+    axios
+        .post(`/api/products/checkstock`, itemData)
+        .then(res =>
+            dispatch({
+                type: CHECK_STOCK,
+                payload: res.data
+            })
+        )
+        .catch(err =>
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        );
+}
 
 export const clearallProduct = () => ({
     type: CLEAR_ALL_PRODUCT

@@ -28,9 +28,18 @@ class ProductItem extends Component {
     AddCart(id,quantity){
         const cartData = {
             productid: id,
-            quantity: quantity
+            quantity: quantity,
+            price: this.props.product.product[0].price,
+            name: this.props.product.product[0].name,
+            discount: this.props.product.product[0].discount,
+            type: this.props.product.product[0].type,
+            brand: this.props.product.product[0].brand,
+            description: this.props.product.product[0].description,
+            image: this.props.product.product[0].image,
+            tag: this.props.product.product[0].tag,
+            type: this.props.product.product[0].type
         }
-        const cartget = JSON.parse(localStorage.getItem('cart'));
+        const cartget = this.props.cart.cart;
         let check = false;
         if (cartget!== null ){
             _.map(cartget,(item,index)=>{
@@ -43,11 +52,12 @@ class ProductItem extends Component {
                 cartget.push(cartData);
             }
             
-            localStorage.setItem('cart', JSON.stringify(cartget))
+            this.props.addtocart(cartget)
         }else{
             const newItem = [];
             newItem.push(cartData);
-            localStorage.setItem('cart', JSON.stringify(newItem));
+            this.props.addtocart(newItem);
+            
         }
         
     }
@@ -55,12 +65,10 @@ class ProductItem extends Component {
     BuyItem(quantity){
         const buyData={
             quantity:parseInt(quantity),
-            productid: this.props.match.params.id
+            productid: this.props.match.params.id,
         }
 
         this.props.buyproduct(buyData);
-
-
         this.props.getproduct(this.props.match.params.id);
     }
 
@@ -82,7 +90,7 @@ class ProductItem extends Component {
             
 
             if (this.props.product.product[0].discount !== null){
-                productprice = this.props.product.product[0].price * this.props.product.product[0].discount
+                productprice = this.props.product.product[0].price * (1- this.props.product.product[0].discount)
                 showproductprice = <p>Price: ${parseFloat(productprice).toFixed(2)} ({this.props.product.product[0].discount*100}%)</p>
             }else{
                 productprice = this.props.product.product[0].price;

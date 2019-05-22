@@ -87,7 +87,9 @@ class Product extends Component {
                             <div className="product-description">
                                 <a>{product.brand}</a>
                                 <h6><b>{product.name}</b> </h6>
-                                <span className='original-price'>$90.00</span><span>${parseFloat(product.price).toFixed(2)}</span> <br />
+                                {product.discount !== null ? (<span className='original-price'>${parseFloat(product.price).toFixed(2)}</span>): null }
+                                {product.discount !== null ? (<span>${(parseFloat(product.price) * (1- parseFloat(product.discount))).toFixed(2)}</span>) : (<span>${parseFloat(product.price).toFixed(2)}</span>)}
+                                 <br />
 
                             </div>
                         </div>
