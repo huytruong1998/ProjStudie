@@ -8,6 +8,7 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 const passport = require('passport');
 
 const users = require('./api/auth/users');
+const order = require('./api/order/order');
 const products = require('./api/product/products');
 
 var db = require('./database')
@@ -54,6 +55,7 @@ app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().use
 
 app.use('/api/users', users);
 app.use('/api/products', products);
+app.use('/api/order', order);
 
 app.listen(PORT, ()=>{
     console.log(`Listening on port ${PORT}`);

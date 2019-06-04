@@ -4,7 +4,7 @@
 }
 
 .item-container{
-        padding: 15px;
+    padding: 15px;
     border: 1px solid rgba(0,0,0,0.1);
     display:flex;
 }
@@ -13,7 +13,7 @@
     flex: 1;
 }
 
-.description{
+.description-cart{
     flex:3;
     padding: 0px 15px 0px 15px;
 }

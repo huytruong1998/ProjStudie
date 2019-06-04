@@ -10,3 +10,6 @@ export const ADD_TO_CART = 'ADD_TO_CART';
 export const BUY_PRODUCT = 'BUY_PRODUCT';
 export const SHOW_CART = 'SHOW_CART';
 export const CHECK_STOCK = 'CHECK_STOCK';
+export const EDIT_PRODUCT ='EDIT_PRODUCT';
+export const MAKE_ORDER = 'MAKE_ORDER';
+export const GET_ALL_ORDER = 'GET_ALL_ORDER';

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import './Cart.css';
-import clothes from '../img/clothes.png';
+
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { addtocart, buyproduct } from '../../action/products';
+import { makeorder} from '../../action/order';
 
 class Cart extends Component {
     constructor(){
@@ -44,19 +45,38 @@ class Cart extends Component {
         this.props.addtocart(cartData);
     }
 
-    BuyItem(){
+    BuyItem(totalprice){
         const cartData = this.props.cart.cart;
-
+        let orderData;
+        const orderArray ={order:[]};
         _.map(cartData, (item,index) => {
              const buyData = {
                 quantity: parseInt(item.quantity),
-                productid: item.productid,
+                price: item.price,
+                discount: item.discount,
+                name: item.name,
+                brand: item.brand,
+                type: item.type
             }
-            this.props.buyproduct(buyData);
+            var date = new Date().getDate();
+            var month = new Date().getMonth();
+            var hours = new Date().getHours();
+            var min = new Date().getMinutes();
+            var sec = new Date().getSeconds();
+            var year = new Date().getFullYear();
+            orderArray.order.push(buyData);
             
-            console.log(item);
+            orderData = {
+                startdate: date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec,
+                item: orderArray,
+                status: 'new',
+                userid: this.props.auth.user.id,
+                totalprice: totalprice
+            }
+            
             
         });
+        this.props.makeorder(orderData);
         cartData.splice(0, cartData.length);
         this.props.addtocart(cartData);
     }
@@ -79,9 +99,9 @@ class Cart extends Component {
                 return (
                     <div className="item-container" key={index}>
                         <div className="productimg">
-                            <img src={product.image} width='150px' />
+                            <img src={product.image} width='150px' alt='' />
                         </div>
-                        <div className="description">
+                        <div className="description-cart">
                             <h4>{product.name}</h4>
                             <p>{product.brand}</p>
                             <p>{product.description}</p>
@@ -106,7 +126,7 @@ class Cart extends Component {
             <h2>Shopping Cart</h2>
             {showCart}
             <h2>Total:${totalprice.toFixed(2)} </h2>
-            <button onClick={() => this.BuyItem()}>Checkout</button>
+            <button onClick={() => this.BuyItem(totalprice.toFixed(2))}>Checkout</button>
         </div>
     }
 }
@@ -114,10 +134,11 @@ class Cart extends Component {
 
 
 const mapStateToProps = state => ({
-    cart: state.cart
+    cart: state.cart,
+    auth: state.auth
 });
 
 export default connect(
     mapStateToProps,
-    { addtocart,buyproduct }
+    { addtocart, buyproduct, makeorder }
 )(Cart);

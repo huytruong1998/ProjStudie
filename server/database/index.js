@@ -1,12 +1,15 @@
 var {Pool} = require('pg');
 
-const CONNECTION_STRING = process.env.DATABASE_URL || 'postgresql://postgres:huy723027@localhost:5432/shopnme';
+//postgresql://postgres:huy723027@localhost:5432/shopnme
+const CONNECTION_STRING = process.env.DATABASE_URL || 'postgres://gulocojvdcqjca:a1bf72fef57a13a56f5b945d475b6541ecda121df91875d09fd7f41071216e54@ec2-54-247-178-166.eu-west-1.compute.amazonaws.com:5432/d54jvmvbu2ro9a';
 const SSL = process.env.NODE_ENV === 'production';
 class Database {
     constructor() {
         this._pool = new Pool({
             connectionString: CONNECTION_STRING,
-            ssl: SSL
+            idleTimeoutMillis: 30000,
+            max:10,
+            ssl: true
         });
 
         this._pool.on('error', (err, client) => {

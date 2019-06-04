@@ -10,7 +10,7 @@ export const getallProduct = () => (dispatch) => {
             payload: res.data
         }))
         .catch(err => dispatch({
-            type: GET_ALL_PRODUCT,
+            type: GET_ERRORS,
             payload: {}
         }));
 };
@@ -26,7 +26,7 @@ export const getproduct = (id) => (dispatch) =>{
         )
         .catch(err =>
             dispatch({
-                type: GET_PRODUCT,
+                type: GET_ERRORS,
                 payload: null
             })
         );
@@ -78,3 +78,14 @@ export const checkstock = (itemData) => (dispatch) => {
 export const clearallProduct = () => ({
     type: CLEAR_ALL_PRODUCT
 });
+
+export const editproduct = (productdata,id) => (dispatch)=>{
+    axios
+        .post(`/api/products/${id}/admin/edit`, productdata)
+        .catch(err =>
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        );
+}

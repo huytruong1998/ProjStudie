@@ -59,6 +59,7 @@ router.get('/current', passport.authenticate('jwt', { session: false }), (req, r
     res.json({
         id: req.user.userid,
         email: req.user.email,
+        role: req.user.role
     });
 });
 
@@ -79,7 +80,8 @@ router.post('/login', (req, res) => {
                 if (isMatch) {
                     const payload = {
                         id:  user[0].userid,
-                        email: user[0].email
+                        email: user[0].email,
+                        role: user[0].role
                     };
 
                     jwt.sign(payload, 'secret', { expiresIn: 3600 }, (err, token) => {

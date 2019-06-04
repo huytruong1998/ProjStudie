@@ -24,7 +24,7 @@ class Homepage extends Component {
                     <div className="product-style-grid">
                         <div style={{ backgroundImage: `url(${clothes})` }} className="product-col">
                             <div className="tag">
-                                <Link to='/'>CLOTHES</Link>
+                                <Link to={{pathname: '/',state:{type: clothes}}} >CLOTHES</Link>
                             </div>
                         </div>
                         <div style={{ backgroundImage: `url(${accessories})` }} className="product-col">

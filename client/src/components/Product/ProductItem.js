@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './ProductPage.css';
 import _ from 'lodash';
-import clothes from '../img/clothes.png';
 import { connect } from 'react-redux';
 import { getproduct, buyproduct, addtocart } from '../../action/products';
 import Button from '@material-ui/core/Button';
@@ -78,7 +77,7 @@ class ProductItem extends Component {
         this.props.getproduct(this.props.match.params.id);
     }
     render() {
-        let imageproduct, productbrand, showproductprice,productprice,productname,cartprice,shippingprice;
+        let imageproduct, productbrand, showproductprice, productprice, productname, cartprice, shippingprice, productdesc;
         let stocknumber;
         if (this.props.product.product === null) {
             imageproduct= <div><h1>Loading Image ...</h1></div>
@@ -86,6 +85,7 @@ class ProductItem extends Component {
             imageproduct = <div style={{ backgroundImage: `url(${this.props.product.product[0].image})` }} className="product-image">
             </div>;
             productname = this.props.product.product[0].name;
+            productdesc = this.props.product.product[0].description;
             productbrand = <a href="#">{this.props.product.product[0].brand}</a>;
             
 
@@ -126,7 +126,7 @@ class ProductItem extends Component {
                             {showproductprice}
                         </div>
                         <div className="description">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            <p>{productdesc}</p>
                         </div>
                         
                     </div>
