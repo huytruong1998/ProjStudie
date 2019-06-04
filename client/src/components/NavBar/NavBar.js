@@ -32,7 +32,7 @@ class NavBar extends Component {
                         <li><b><Link to="/">Home</Link></b> </li>
                         <li><b><Link to="/product">Product</Link></b></li>
                         <li><b><a href="#">Offer</a></b></li>
-                        <li><b><Link to="/admin">Admin</Link></b></li>
+                        {this.props.auth.isAuthenticated ? (<li><b><Link to="/admin">Admin</Link></b></li>):null}
                         <li><b><Link to='/cart'><i className="fas fa-shopping-cart"></i></Link></b></li>
                         <li><b><a href="#"><i className="fas fa-search"></i></a></b>
                         </li>

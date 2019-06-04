@@ -4,23 +4,12 @@ const express = require('express')
 const uniqueString = require('unique-string');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const User = require('../../models/product');
+
 const validateAddProduct = require('../../validation/addproducts');
 const Product = require('../../models/product');
 const validateCheckStockInput = require('../../validation/checkstock');
 
 const router = express.Router();
-
-router.get('/test', (req, res) => {
-    db.query('SELECT * FROM public.authuser', (err, user) => {
-        if (err.error) {
-            return res.status(404).json(err)
-        }
-        return res.json(user)
-
-    });
-});
-
 
 
 router.get('/showallproducts', (req,res) =>{
@@ -71,15 +60,25 @@ router.post('/deleteproducts', (req,res)=>{
 })
 
 
-// router.post('/:id/buyproduct',(req,res)=>{
-//     Product.buyproduct(req.params.id, req.body.quantity, (err, product)=>{
-//         if (err.length = 0) {
-//             return res.json(err)
-//         } else {
-//             return res.json({ msg: 'Sucessfully buy product' })
-//         }
-//     })
-// })
+router.post('/:id/buyproduct',(req,res)=>{
+    Product.buyproduct(req.params.id, req.body.quantity, (err, product)=>{
+        if (err.length = 0) {
+            return res.json(err)
+        } else {
+            return res.json({ msg: 'Sucessfully buy product' })
+        }
+    })
+})
+
+
+router.post('/:id/admin/edit',(req,res)=>{
+    Product.editproduct(req.params.id, req.body.name, req.body.price, req.body.brand, req.body.discount, req.body.type, req.body.description, req.body.country, req.body.image, req.body.tag, req.body.stocks, (err, product) => {
+        if (err) {
+            return res.json(err);
+        }
+        return res.json(product);
+    })
+})
 
 router.post('/checkstock',(req,res)=>{
     const { errors, isValid } = validateCheckStockInput(req.body);

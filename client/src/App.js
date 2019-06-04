@@ -8,6 +8,9 @@ import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
 import ProductPage from './components/Product/ProductPage';
 import ProductItem from './components/Product/ProductItem';
+import AdminItem from './components/Admin/Product/Product';
+import PrivateRoute from './components/common/PrivateRoute';
+
 
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
@@ -50,8 +53,11 @@ class App extends Component {
               <Route exact path="/product" component={ProductPage} />
               <Route exact path="/cart" component={Cart} />
               <Route exact path="/product/:id" component={ProductItem} />
-              <Route exact path="/admin" component={Admin} />
-
+              <Route exact path="/product/admin/:id" component={AdminItem} />
+              
+              <Switch>
+                <PrivateRoute exact path="/admin" component={Admin} />
+              </Switch>
           </div>
           <Footer />
         </div>

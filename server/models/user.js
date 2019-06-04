@@ -1,8 +1,5 @@
 const db = require('../database')
-const uniqueString = require('unique-string');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const passport = require('passport');
+
 class User{
     static register(email, password,uniqueID,callback){
         db.query(

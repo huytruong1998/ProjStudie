@@ -75,6 +75,15 @@ class Product {
         })
     }
 
+    static editproduct(productid,name,price,brand,discount,type,description,country,image,tag,stocks,callback){
+        db.query('UPDATE public.products SET name = $1,price =$2, brand =$3, discount=$4, type=$5, description =$6, country=$7, image=$8,tag=$9, stocks = $10 WHERE id = $11',[name,price,brand,discount,type,description,country,image,tag,stocks,productid],(error)=>{
+            if (error.errors) {
+                return callback(error)
+            }
+            callback('Successfully update item')
+        })
+    }
+
     
 }
 
