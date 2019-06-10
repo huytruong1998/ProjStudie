@@ -44,5 +44,23 @@ router.post('/array',(req,res)=>{
     })
 })
 
+router.post('/checkorderstock',(req,res)=>{
+    Order.checkorderstocks(req.body.orderid,(err,ordercheck)=>{
+        if(err){
+            return res.json(err);
+        }
+        return res.json(ordercheck)
+    })
+})
+
+router.post('/changestatus',(req,res)=>{
+    Order.changestatus(req.body.status,req.body.orderid,(err,status)=>{
+        if (err) {
+            return res.json(err);
+        }
+        return res.json(status);
+    })
+})
+
 
 module.exports = router;

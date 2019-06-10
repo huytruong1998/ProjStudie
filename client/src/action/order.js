@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { MAKE_ORDER, GET_ERRORS, GET_ALL_ORDER } from './types';
+import { MAKE_ORDER, GET_ERRORS, GET_ALL_ORDER, CHANGE_ORDER_STATUS } from './types';
 
 export const makeorder = (orderdata) => (dispatch) => {
     axios
@@ -27,3 +27,16 @@ export const getallorder = () => (dispatch) =>{
             payload: {}
         }));
 }
+
+export const changestatus =(changeData) =>(dispatch)=>{
+    axios
+        .post('api/order/changestatus',changeData)
+        .then(res=>dispatch({
+            type: CHANGE_ORDER_STATUS,
+            payload:res.data
+        }))
+        .catch(err=>dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+        }))
+} 

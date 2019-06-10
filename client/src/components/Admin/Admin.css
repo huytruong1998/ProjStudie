@@ -13,6 +13,12 @@
     justify-items: center;
 }
 
+.order-style-grid-admin{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(100px,1fr));
+
+}
+
 
 .product-popular-col-img{
     position: relative;
@@ -33,4 +39,8 @@
     display: grid;
     grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
     justify-items: center;
+}
+
+.order-admin-display{
+    width: 100%;
 }

@@ -3,7 +3,7 @@ import './Admin.css';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getallProduct } from '../../action/products';
-import { getallorder} from '../../action/order';
+import { getallorder, changestatus} from '../../action/order';
 import _ from 'lodash';
 import { Link } from "react-router-dom";
 
@@ -11,13 +11,27 @@ class Admin extends Component {
     constructor(){
         super();
         this.state={
-            tab: 'product'
+            tab: 'product',
+            orderid:null,
+            orderstatus:'all'
         }
     }
 
     componentDidMount() {
         this.props.getallProduct();
         this.props.getallorder();
+    }
+
+    componentWillReceiveProps(nextProps){
+        if (nextProps.orders.orders === this.props.orders.orders){
+            this.props.getallorder();
+        }
+        
+        
+    }
+
+    slectOrder(id){
+        this.setState({orderid: id})
     }
 
     showproduct =() =>{
@@ -28,11 +42,35 @@ class Admin extends Component {
         this.setState({ tab: 'order' })
     }
 
+    statuspending(id){
+        const chagneData={
+            status: 'pending',
+            orderid: id
+        }
+        this.props.changestatus(chagneData);
+    }
+
+    statusfinnished(id){
+        const chagneData = {
+            status: 'finnished',
+            orderid: id
+        }
+        this.props.changestatus(chagneData);
+    }
+    orderdelete(id) {
+        const chagneData = {
+            status: 'delete',
+            orderid: id
+        }
+        this.props.changestatus(chagneData);
+    }
+
     
     render(){
         const { products } = this.props.product;
         const {orders} = this.props.orders;
-        let admincontent,normalcontent,productcontent,ordercontent;
+        
+        let admincontent, normalcontent, productcontent, ordercontent, selectorder, orderordercontent;
         if (products === null) {
             productcontent = <h1>Nothing here</h1>
         } else{
@@ -49,13 +87,53 @@ class Admin extends Component {
                     </div>
                 )
             })
-            ordercontent = _.map(orders,(order,index)=>{
-                return(
-                    <div className="product-admin-display" key={index}>
-                        <p>{order.orderid}</p>
-                    </div>
-                )
+            ordercontent = _.orderBy(orders,'startdate').map((order,index)=>{
+                if(this.state.orderstatus ==='all' || order.status === this.state.orderstatus){
+                    if (this.state.orderid === order.orderid) {
+                        const OrderItem = _.map(order.item.order, (item, index) => {
+                            return (
+                                <div className='order-item' key={index}>
+                                    <div className='row'>
+                                        <div style={{ float: 'left' }}>
+                                            <img src={item.image} width='150px' alt='' />
+                                        </div>
+                                        <div style={{ float: "right", marginLeft: '15px' }}>
+                                            <p>Product: {item.name}</p>
+                                            <p>Quantity: {item.quantity}</p>
+                                            <p>Price: {item.price.toFixed(2)}</p>
+                                            {item.discount !== null ? <p>Discount: {item.discount * 100}%</p> : null}
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            )
+                        })
+                        selectorder = (
+                            <div className='selectOrderArea'>
+                                <p>OrderID: {order.orderid}</p>
+                                <p>UserID: {order.userid}</p>
+                                {OrderItem}
+                                <p>Total Price:{order.totalprice.toFixed(2)}</p>
+                                <div className='row'>
+                                    {order.status === 'new' ? <button onClick={() => this.statuspending(order.orderid)}>Deliver</button> : null}
+                                    {order.status === 'pending' ? <button onClick={() => this.statusfinnished(order.orderid)}>Finnished</button> : null}
+                                    {order.status === 'finnished' ? <button onClick={() => this.orderdelete(order.orderid)}>DELETE</button> : null}
+
+                                </div>
+                            </div>
+                        )
+                    }
+                    return (
+                        <button onClick={() => this.slectOrder(order.orderid)} className="order-admin-display" style={order.status === 'new' ? { backgroundColor: 'green' } : order.status === 'pending' ? { backgroundColor: 'yellow' } : order.status === 'finnished' ? { backgroundColor: 'gray' } : null} key={index}>
+                            <p>{order.startdate}</p>
+                        </button>
+
+                    )
+                }
+                
             })
+        
 
         }
         admincontent = (
@@ -67,7 +145,24 @@ class Admin extends Component {
                 </div>
                 <div className="product-item">
                     <div className="product-style-grid-admin">
-                        {this.state.tab === 'product' ? productcontent : this.state.tab === 'order' ? ordercontent : null}
+                        {this.state.tab === 'product' ? productcontent : null}
+                        
+                    </div>
+                    <div className='order-style-grid-admin'>
+                    <div className='row'>
+                        <div className='col-sm-5'>
+                                {this.state.tab === 'order' ? <div className='order-style-grid-admin'>
+                                    <button onClick={()=>this.setState({ orderstatus:'all'})}>All</button>
+                                    <button onClick={()=>this.setState({ orderstatus: 'new' })}>New</button>
+                                    <button onClick={()=>this.setState({ orderstatus: 'pending' })}>Pending</button>
+                                    <button onClick={()=>this.setState({ orderstatus: 'finnished' })}>Finnished</button>
+                                </div>:null}
+                            {this.state.tab === 'order' ? ordercontent:null}
+                        </div>
+                        <div className='col-sm-7'>
+                            {this.state.tab === 'order' ? selectorder : null}
+                        </div>
+                    </div>
                         
                     </div>
                 </div>
@@ -99,4 +194,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps, { getallProduct, getallorder})(Admin);
+export default connect(mapStateToProps, { getallProduct, changestatus, getallorder})(Admin);
