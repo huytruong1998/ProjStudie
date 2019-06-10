@@ -56,7 +56,9 @@ class Cart extends Component {
                 discount: item.discount,
                 name: item.name,
                 brand: item.brand,
-                type: item.type
+                type: item.type,
+                image:item.image,
+                id: item.productid
             }
             var date = new Date().getDate();
             var month = new Date().getMonth();
@@ -108,7 +110,7 @@ class Cart extends Component {
                         </div>
                         <div className="priceqty">
                             <div className="proprice">
-                                <h3>{product.discount !== null ? '$' + ((product.price * (1 - product.discount)) * product.quantity).toFixed(2) : '$' + product.price.toFixed(2)}</h3>
+                                <h3>{product.discount !== null ? '$' + ((product.price * (1 - product.discount)) * product.quantity) : '$' + product.price}</h3>
                             </div>
                             <div className="proquantity">
                                 <p>{product.quantity}</p>
@@ -126,7 +128,7 @@ class Cart extends Component {
             <h2>Shopping Cart</h2>
             {showCart}
             <h2>Total:${totalprice.toFixed(2)} </h2>
-            <button onClick={() => this.BuyItem(totalprice.toFixed(2))}>Checkout</button>
+            <button onClick={() => this.BuyItem(totalprice)}>Checkout</button>
         </div>
     }
 }
