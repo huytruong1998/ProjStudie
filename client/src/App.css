@@ -6,7 +6,9 @@
     margin-top: 65px;
 
 }
-
+.content-container{
+  min-height: 100vh;
+}
 
 body {
   font-family: "Open Sans";

@@ -79,7 +79,7 @@ class Product extends Component {
                 if(product.tag === this.state.filter || product.type === this.state.filter || this.state.filter ==='all'){
                     return (
                         <div key={index} className="product-popular-col">
-                            <div style={{ backgroundImage: `url(${product.image})` }} className="product-popular-col-img">
+                            <div style={{ backgroundImage: `url(${product.image})`, backgroundColor:'white' }} className="product-popular-col-img">
                                 <div className="popular-show-cart">
                                     <button><Link to={`/product/${product.id}`}>VIEW DETAIL</Link></button> 
                                 </div>
@@ -88,7 +88,7 @@ class Product extends Component {
                                 <a>{product.brand}</a>
                                 <h6><b>{product.name}</b> </h6>
                                 {product.discount !== null ? (<span className='original-price'>${parseFloat(product.price).toFixed(2)}</span>): null }
-                                {product.discount !== null ? (<span>${(parseFloat(product.price) * (1- parseFloat(product.discount))).toFixed(2)}</span>) : (<span>${parseFloat(product.price).toFixed(2)}</span>)}
+                                {product.discount !== null  ? (<span style={{color:'red'}} >${(parseFloat(product.price) * (1- parseFloat(product.discount))).toFixed(2)}</span>) : (<span>${parseFloat(product.price).toFixed(2)}</span>)}
                                  <br />
 
                             </div>

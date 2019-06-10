@@ -3,6 +3,7 @@ import './ProductPage.css';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { getproduct, buyproduct, addtocart } from '../../action/products';
+import {makeorder} from '../../action/order';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -28,7 +29,7 @@ class ProductItem extends Component {
         const cartData = {
             productid: id,
             quantity: quantity,
-            price: this.props.product.product[0].price,
+            price: parseInt(this.props.product.product[0].price),
             name: this.props.product.product[0].name,
             discount: this.props.product.product[0].discount,
             type: this.props.product.product[0].type,
@@ -40,34 +41,63 @@ class ProductItem extends Component {
         }
         const cartget = this.props.cart.cart;
         let check = false;
-        if (cartget!== null ){
-            _.map(cartget,(item,index)=>{
-                if(item.productid === id){
-                    item.quantity = parseInt(item.quantity) + parseInt(quantity);
-                    check = true;
-                }
-            })
-            if (check === false){
-                cartget.push(cartData);
-            }
+        if (quantity >= this.props.product.product[0].stocks){
+            console.log('There are not enough in stocks');
             
-            this.props.addtocart(cartget)
         }else{
-            const newItem = [];
-            newItem.push(cartData);
-            this.props.addtocart(newItem);
-            
+            if (cartget !== null) {
+                _.map(cartget, (item, index) => {
+                    if (item.productid === id) {
+                        item.quantity = parseInt(item.quantity) + parseInt(quantity);
+                        check = true;
+                    }
+                })
+                if (check === false) {
+                    cartget.push(cartData);
+                }
+
+                this.props.addtocart(cartget)
+            } else {
+                const newItem = [];
+                newItem.push(cartData);
+                this.props.addtocart(newItem);
+
+            }
         }
+        
         
     }
 
-    BuyItem(quantity){
-        const buyData={
-            quantity:parseInt(quantity),
-            productid: this.props.match.params.id,
+    BuyItem(quantity,totalprice){
+        const orderArray = { order: [] };
+        let orderData;
+        const buyData = {
+            quantity: parseInt(quantity),
+            price: parseInt(this.props.product.product[0].price),
+            discount: this.props.product.product[0].discount,
+            name: this.props.product.product[0].name,
+            brand: this.props.product.product[0].brand,
+            type: this.props.product.product[0].type,
+            image: this.props.product.product[0].image,
+            id: this.props.product.product[0].productid
         }
 
-        this.props.buyproduct(buyData);
+        var date = new Date().getDate();
+        var month = new Date().getMonth();
+        var hours = new Date().getHours();
+        var min = new Date().getMinutes();
+        var sec = new Date().getSeconds();
+        var year = new Date().getFullYear();
+        orderArray.order.push(buyData);
+
+        orderData = {
+            startdate: date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec,
+            item: orderArray,
+            status: 'new',
+            userid: this.props.auth.user.id,
+            totalprice: totalprice
+        }
+        this.props.makeorder(orderData);
         this.props.getproduct(this.props.match.params.id);
     }
 
@@ -146,7 +176,7 @@ class ProductItem extends Component {
                         </div>
                         
                         <div className='BuyNow'>
-                            <button onClick={() =>this.BuyItem(this.state.quantity)}>Buy Now</button>
+                            <button onClick={() => this.BuyItem(this.state.quantity, productprice)}>Buy Now</button>
                         </div>
 
                         
@@ -160,10 +190,11 @@ class ProductItem extends Component {
 
 const mapStateToProps = state => ({
     product: state.product,
-    cart: state.cart
+    cart: state.cart,
+    auth: state.auth
 });
 
 export default connect(
     mapStateToProps,
-    { getproduct, buyproduct, addtocart}
+    { getproduct, buyproduct, addtocart,makeorder}
 )(ProductItem);

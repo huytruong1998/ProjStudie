@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import '../Admin.css';
-import _ from 'lodash';
 import { connect } from 'react-redux';
 import { getproduct, editproduct, buyproduct, addtocart } from '../../../action/products';
 import isEmpty from '../../../validation/is-empty';
@@ -44,7 +43,7 @@ class AdminItem extends Component {
             product.description = !isEmpty(product.description) ? product.description : '';
             product.discount = !isEmpty(product.discount) ? product.discount : null;
             product.image = !isEmpty(product.image) ? product.image : null;
-            product.price = !isEmpty(product.price) ? product.price : 0;
+            product.price = !isEmpty(product.price)  ? product.price : null;
             product.tag = !isEmpty(product.tag) ? product.tag : '';
             product.stocks = !isEmpty(product.stocks) ? product.stocks : 0;
 
@@ -54,7 +53,7 @@ class AdminItem extends Component {
                 type: product.type,
                 country: product.country,
                 description: product.description,
-                discount: product.discount,
+                discount: product.discount*100,
                 image: product.image,
                 price: product.price,
                 tag: product.tag,
@@ -66,13 +65,14 @@ class AdminItem extends Component {
     }
 
     editproduct(id){
+        
         const productdata = {
             name: this.state.name,
             brand:this.state.brand,
             type: this.state.type,
             country: this.state.country,
             description: this.state.description,
-            discount: this.state.discount,
+            discount: (this.state.discount === 0) ? null : this.state.discount / 100 ,
             image: this.state.image,
             price: this.state.price,
             tag: this.state.tag,
@@ -92,19 +92,28 @@ class AdminItem extends Component {
                         <img src={this.state.image} alt=""  style={{width: 300}}/>
                     </div>
                     <div>
+                        <span>Name</span>
                         <p><input type="text" placeholder='name' name='name' onChange={this.onChange} value={this.state.name}/> </p>
+                        <span>Brand</span>
                         <p><input type="text" name='brand' placeholder='brand' onChange={this.onChange} value={this.state.brand} /> </p>
+                        <span>Type</span>
                         <p><input type="text" name='type' placeholder='type' onChange={this.onChange} value={this.state.type} /> </p>
-                        
+                        <span>Description</span>
                         <p><textarea type="text" placeholder='description' name='description' onChange={this.onChange} value={this.state.description} /> </p>
                         
                     </div>
                     <div>
+                        <span>Country</span>
                         <p><input type="text" placeholder='country' name='country' onChange={this.onChange} value={this.state.country} /> </p>
-                        <p><input type="text" placeholder='discount' name='discount' onChange={this.onChange} value={this.state.discount} /> </p>
+                        <span>Discount</span>
+                        <p><input type="number" placeholder='discount' name='discount' onChange={this.onChange} value={this.state.discount} />% </p>
+                        <span>Price</span>
                         <p><input type="text" placeholder='price' name='price' onChange={this.onChange} value={this.state.price} /> </p>
+                        <span>Tag</span>
                         <p><input type="text" placeholder='tag' name='tag' onChange={this.onChange} value={this.state.tag} /> </p>
+                        <span>Stocks</span>
                         <p><input type="text" placeholder='stocks' name='stocks' onChange={this.onChange} value={this.state.stocks} /> </p>
+                        <span>Image url</span>
                         <p><input type="text" placeholder='image' name='image' onChange={this.onChange} value={this.state.image} /> </p>
                         <button onClick={() =>this.editproduct(this.props.match.params.id)}>APPLY</button>
                     </div>
