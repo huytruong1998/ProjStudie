@@ -26,7 +26,7 @@
     height: 250px;
     background-size: 250px;
     justify-items: center;
-    background-color:  #D3D3D3;
+    background-color:  #F2F3F4 !important;
     text-align: center;
     background-repeat: no-repeat;
     margin-bottom: 15px;
@@ -40,6 +40,15 @@
     grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
     justify-items: center;
 }
+
+.edit-item-style input{
+    width: 250px;
+}
+
+.edit-item-style textarea{
+    width: 250px;
+}
+
 
 .order-admin-display{
     width: 100%;

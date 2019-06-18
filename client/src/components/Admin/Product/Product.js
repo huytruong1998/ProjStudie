@@ -99,7 +99,7 @@ class AdminItem extends Component {
                         <span>Type</span>
                         <p><input type="text" name='type' placeholder='type' onChange={this.onChange} value={this.state.type} /> </p>
                         <span>Description</span>
-                        <p><textarea type="text" placeholder='description' name='description' onChange={this.onChange} value={this.state.description} /> </p>
+                        <p><textarea style={{height:'250px'}} type="text" placeholder='description' name='description' onChange={this.onChange} value={this.state.description} /> </p>
                         
                     </div>
                     <div>

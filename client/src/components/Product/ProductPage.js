@@ -13,12 +13,23 @@ class Product extends Component {
         this.state = {
             filter:'all',
             currentPage:null,
-            totalPage:null
+            totalPage:null,
+            search:''
         }
+    }
+
+    updateSearch(event){
+        this.setState({search:event.target.value.substr(0,20)})
     }
 
     componentDidMount() {
         this.props.getallProduct();
+        if (this.props.location.state!== undefined){
+            this.setState({ filter: this.props.location.state.type })
+        }
+        
+        
+        
     }
     showAll = () =>{
         this.setState({filter: 'all'})
@@ -70,39 +81,48 @@ class Product extends Component {
 
     render() {
         
-        const {products} = this.props.product;
+        const { products } = this.props.product;
         let displayproduct;
         if(products === null ){
             displayproduct = <h1>Nothing here</h1>
         }else{
-            displayproduct = _.map(products,(product,index)=>{
-                if(product.tag === this.state.filter || product.type === this.state.filter || this.state.filter ==='all'){
+            const filterproduct  = _.filter(products,(product)=>{
+            return product.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+            })
+        
+            
+            displayproduct = _.map(filterproduct,(product,index)=>{
+                if(product.tag === this.state.filter || product.type === this.state.filter || product.brand === this.state.filter || this.state.filter ==='all'){
                     return (
-                        <div key={index} className="product-popular-col">
+                        <Link key={index} className='line-bottom' style={{textDecoration:'none'}} to={`/product/${product.id}`}>
+                        <div  className="product-popular-col">
+                            
                             <div style={{ backgroundImage: `url(${product.image})`, backgroundColor:'white' }} className="product-popular-col-img">
-                                <div className="popular-show-cart">
-                                    <button><Link to={`/product/${product.id}`}>VIEW DETAIL</Link></button> 
-                                </div>
+                                {product.discount !== null ? <div className='discount-on-product'>
+                                    -{product.discount*100}%
+                            </div>:null}
                             </div>
                             <div className="product-description">
-                                <a>{product.brand}</a>
-                                <h6><b>{product.name}</b> </h6>
-                                {product.discount !== null ? (<span className='original-price'>${parseFloat(product.price).toFixed(2)}</span>): null }
-                                {product.discount !== null  ? (<span style={{color:'red'}} >${(parseFloat(product.price) * (1- parseFloat(product.discount))).toFixed(2)}</span>) : (<span>${parseFloat(product.price).toFixed(2)}</span>)}
+                                    <span style={{ color:'#767676'}} onClick={()=>this.setState({filter:product.brand})}>{product.brand}</span>
+                                <h6 style={{color:'black'}}><b>{product.name}</b> </h6>
+                                    {product.discount !== null ? (<span className='original-price'>{parseFloat(product.price).toFixed(2)} €</span>): null }
+                                    {product.discount !== null ? (<span style={{ color: 'red' }} >{(parseFloat(product.price) * (1 - parseFloat(product.discount))).toFixed(2)} €</span>) : (<span style={{ color: 'black' }}>{parseFloat(product.price).toFixed(2)}€</span>)}
                                  <br />
-
-                            </div>
+                            </div>        
                         </div>
+                        </Link>
                     )
                 }
-                    
-                
             })
         }
         
         return (
             <div className='product-container row'>          
                     <div className="filter-bar ">
+                    <div className='searchbar'>
+                        <h5><b>Search Bar</b></h5>
+                        <input type='text' style={{marginBottom:'20px'}} placeholder='Search product' value={this.state.search} onChange={this.updateSearch.bind(this)} />
+                    </div>
                     <div className="title-head-product">
                         <h5><b>Shop by category</b></h5>
                     </div>
@@ -137,11 +157,12 @@ class Product extends Component {
                     </div>
                     <div className="category">
                         <ul>
-                            <li><input type="checkbox" /> <a href="#">Zara</a> </li>
-                            <li><input type="checkbox" /><a href="#">The North Face</a> </li>
-                            <li><input type="checkbox" /><a href="#">H&M</a> </li>
+                            <li> <a href="#" onClick={()=>this.setState({filter:'Nike'})}>Nike</a> </li>
+                            <li><a href="#" onClick={()=>this.setState({ filter: 'The North Face' })}>The North Face</a> </li>
+                            <li><a href="#" onClick={()=>this.setState({ filter: 'Amazon' })}>Amazon</a> </li>
                         </ul>
                     </div>
+                    
                     </div>
                     <div className="product-bar ">
                         <div className="products-style-grid">{displayproduct}</div>

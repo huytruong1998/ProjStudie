@@ -3,6 +3,8 @@
     padding: 20px 20px 50px 50px;
     clear: left;
     width: 20%;
+    margin-top: 50px;
+
 }
 
 .full{
@@ -56,6 +58,9 @@
 
 .cart-option{
     clear:right;
+    padding: 10px 20px 10px 20px;
+    border-radius: 3px;
+    border: 1px solid #ddd;
 }
 
 .product-image{
@@ -69,3 +74,36 @@
     margin: 15px;
 }
 
+
+.AddCartbutton{
+    display: block;
+    padding: 6px 15px;
+    width: 100%;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-align: center;
+    background: #62aaa7;
+    border:none;
+    font-weight: bold;
+    color: white;
+    border-radius: 5px;
+    margin-top: 20px;
+    border-bottom: 2px solid gray;
+}
+
+.BuyButton{
+    margin-top:20px;
+    
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    display: block;
+    padding: 6px 15px;
+    width: 100%;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-align: center;
+    background: #b82b21;
+    border:none;
+    border-bottom: 2px solid gray;
+}

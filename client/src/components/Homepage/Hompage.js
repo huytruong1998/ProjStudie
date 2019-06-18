@@ -1,13 +1,46 @@
 import React, { Component } from 'react';
 import './Homepage.css';
 import { Link } from "react-router-dom";
-
+import { connect } from 'react-redux';
+import { getallProduct } from '../../action/products';
 import clothes from '../img/clothes.png';
 import accessories from '../img/accessories.png';
+import _ from 'lodash';
 
 import wintergear from '../img/wintergear.jpg';
 class Homepage extends Component {
+
+    componentDidMount() {
+        this.props.getallProduct();
+    }
     render() {
+        const products = _.take(_.sortBy(this.props.product.products,(product)=>{
+            return parseInt(product.sold) ;
+        }).reverse(),4)
+        let popularitem;
+
+        popularitem = _.map(products, (product, index) => {
+                return (
+                    <Link key={index} className='line-bottom' style={{ textDecoration: 'none' }} to={`/product/${product.id}`}>
+                        <div className="product-popular-col">
+
+                            <div style={{ backgroundImage: `url(${product.image})`, backgroundColor: 'white' }} className="product-popular-col-img">
+                                {product.discount !== null ? <div className='discount-on-product'>
+                                    -{product.discount * 100}%
+                            </div> : null}
+                            </div>
+                            <div className="product-description">
+                                <span style={{ color: '#767676' }} onClick={() => this.setState({ filter: product.brand })}>{product.brand}</span>
+                                <h6 style={{ color: 'black' }}><b>{product.name}</b> </h6>
+                                {product.discount !== null ? (<span className='original-price'>{parseFloat(product.price).toFixed(2)} €</span>) : null}
+                                {product.discount !== null ? (<span style={{ color: 'red' }} >{(parseFloat(product.price) * (1 - parseFloat(product.discount))).toFixed(2)} €</span>) : (<span style={{ color: 'black' }}>{parseFloat(product.price).toFixed(2)}€</span>)}
+                                <br />
+                            </div>
+                        </div>
+                    </Link>
+                )
+        })
+        
         return (
             <div>
                 <div className='section'>
@@ -21,83 +54,36 @@ class Homepage extends Component {
 
 
                 <div className="item-section">
-                    <div className="product-style-grid">
+                    <div className="product-style-grid tag">
+                        <Link to={{ pathname: '/product', state: { type: 'clothes' } }} >
                         <div style={{ backgroundImage: `url(${clothes})` }} className="product-col">
                             <div className="tag">
-                                <Link to={{pathname: '/',state:{type: clothes}}} >CLOTHES</Link>
+                                CLOTHES 
                             </div>
                         </div>
+                        </Link>
+                        <Link to={{ pathname: '/product', state: { type: 'accessories' } }}>
                         <div style={{ backgroundImage: `url(${accessories})` }} className="product-col">
                             <div className="tag">
-                                <Link to='/'>ACCESSORIES</Link>
+                                ACCESSORIES
                             </div>
                         </div>
+                        </Link>
+                        <Link to={{ pathname: '/product', state: { type: 'equipment' } }}>
                         <div style={{ backgroundImage: `url(${wintergear})` }} className="product-col">
                             <div className="tag">
-                                <Link to='/'>EQUIPMENT</Link>
+                                EQUIPMENT
                             </div>
                         </div>
+                        </Link>
                     </div>
 
                     <div className="popular-section">
-                        <h2>Popular Products</h2>
+                        <h2>BEST SELLER</h2>
                     </div>
 
                     <div className="popular-style-grid">
-                    <div className="product-popular-col">
-                            <div style={{ backgroundImage: `url(${clothes})` }} className="product-popular-col-img">
-                                <div className="popular-show-cart">
-                                    <button>VIEW DETAIL</button>
-                                </div>
-                            </div>
-                            <div className="product-description">
-                                <a>The North Face</a>
-                                <h6><b>Warm Coat, Egypt</b> </h6>
-                                <span className='original-price'>$90.00</span><span>$70.00</span> <br/>
-
-                            </div>
-                    </div>
-                        <div className="product-popular-col">
-                            <div style={{ backgroundImage: `url(${clothes})` }} className="product-popular-col-img">
-                                <div className='discount-on-product'>
-                                    -20%
-                            </div>
-                                <div className="popular-show-cart">
-
-                                    <button>VIEW DETAIL</button>
-                                </div>
-                            </div>
-                            <div className="product-description">
-                                <a>The North Face</a>
-                                <h6><b>Warm Coat, Egypt</b> </h6>
-                                <span className='original-price'>$90.00</span><span>$70.00</span>
-                            </div>
-                        </div>
-                        
-                        <div className="product-popular-col">
-                            <div style={{ backgroundImage: `url(${clothes})` }} className="product-popular-col-img">
-                                <div className="popular-show-cart">
-                                    <button>VIEW DETAIL</button>
-                                </div>
-                            </div>
-                            <div className="product-description">
-                                <a>The North Face</a>
-                                <h6><b>Warm Coat, Egypt</b> </h6>
-                                <span className='original-price'>$90.00</span><span>$70.00</span>
-                            </div>
-                        </div>
-                        <div className="product-popular-col">
-                            <div style={{ backgroundImage: `url(${clothes})` }} className="product-popular-col-img">
-                                <div className="popular-show-cart">
-                                    <button>VIEW DETAIL</button>
-                                </div>
-                            </div>
-                            <div className="product-description">
-                                <a>The North Face</a>
-                                <h6><b>Warm Coat, Egypt</b> </h6>
-                                <span className='original-price'>$90.00</span><span>$70.00</span>
-                            </div>
-                        </div>
+                        {popularitem}
                     </div>
                 </div>
             </div>
@@ -105,4 +91,12 @@ class Homepage extends Component {
     }
 }
 
-export default Homepage;
+const mapStateToProps = state => ({
+    product: state.product
+});
+
+export default connect(
+    mapStateToProps,
+    { getallProduct }
+)(Homepage);
+

@@ -4,7 +4,7 @@
 
 .product-container{
     margin-top: 65px;
-
+    font-family: "Roboto Condensed",sans-serif;
 }
 .content-container{
   min-height: 100vh;
