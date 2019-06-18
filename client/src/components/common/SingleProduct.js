@@ -22,7 +22,7 @@ const SingleProduct = ({
             <div className="product-description">
                 <a>{brand}</a>
                 <h6><b>{name}</b> </h6>
-                {discount !== null ? (<span className='original-price'>${parseFloat(price).toFixed(2)}</span>) : null}
+                {discount !== null ? (<span className='original-price'>{parseFloat(price).toFixed(2)} €</span>) : null}
                 {discount !== null ? (<span>${(parseFloat(price) * (1 - parseFloat(discount))).toFixed(2)}</span>) : (<span>${parseFloat(price).toFixed(2)}</span>)}
                 <br />
 
