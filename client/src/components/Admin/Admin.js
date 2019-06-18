@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Admin.css';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getallProduct } from '../../action/products';
+import { getallProduct, buyproduct } from '../../action/products';
 import { getallorder, changestatus} from '../../action/order';
 import _ from 'lodash';
 import { Link } from "react-router-dom";
@@ -50,12 +50,21 @@ class Admin extends Component {
         this.props.changestatus(chagneData);
     }
 
-    statusfinnished(id){
+    statusfinnished(id,item){
         const chagneData = {
             status: 'finnished',
             orderid: id
         }
         this.props.changestatus(chagneData);
+        _.map(item.order,(item)=>{
+            const buyData = {
+                quantity: item.quantity,
+                productid: item.id
+            }
+            this.props.buyproduct(buyData)
+            
+        })
+        
     }
     orderdelete(id) {
         const chagneData = {
@@ -70,7 +79,7 @@ class Admin extends Component {
         const { products } = this.props.product;
         const {orders} = this.props.orders;
         
-        let admincontent, normalcontent, productcontent, ordercontent, selectorder, orderordercontent;
+        let admincontent, normalcontent, productcontent, ordercontent, selectorder;
         if (products === null) {
             productcontent = <h1>Nothing here</h1>
         } else{
@@ -78,7 +87,7 @@ class Admin extends Component {
                 return(
                     <div className="product-admin-display" key={index}>
                         <img src={product.image} alt="" style={{width: 200}} />
-                        <span>Price:{parseFloat(product.price * (1-product.discount)).toFixed(2)}</span><br/>
+                        <span>Price:{parseFloat(product.price * (1 - product.discount)).toFixed(2)}€</span><br/>
                         <span>Stocks:{product.stocks}</span><br />
                         <span>Discount:{product.discount*100}%</span><br />
                         <span>Sold:{product.sold * 1}</span><br />
@@ -100,7 +109,7 @@ class Admin extends Component {
                                         <div style={{ float: "right", marginLeft: '15px' }}>
                                             <p>Product: {item.name}</p>
                                             <p>Quantity: {item.quantity}</p>
-                                            <p>Price: {item.price.toFixed(2)}</p>
+                                            <p>Price: {item.price.toFixed(2)}€</p>
                                             {item.discount !== null ? <p>Discount: {item.discount * 100}%</p> : null}
                                         </div>
                                     </div>
@@ -114,10 +123,10 @@ class Admin extends Component {
                                 <p>OrderID: {order.orderid}</p>
                                 <p>UserID: {order.userid}</p>
                                 {OrderItem}
-                                <p>Total Price:{order.totalprice.toFixed(2)}</p>
+                                <p>Total Price:{order.totalprice.toFixed(2)}€</p>
                                 <div className='row'>
                                     {order.status === 'new' ? <button onClick={() => this.statuspending(order.orderid)}>Deliver</button> : null}
-                                    {order.status === 'pending' ? <button onClick={() => this.statusfinnished(order.orderid)}>Finnished</button> : null}
+                                    {order.status === 'pending' ? <button onClick={() => this.statusfinnished(order.orderid,order.item)}>Finnished</button> : null}
                                     {order.status === 'finnished' ? <button onClick={() => this.orderdelete(order.orderid)}>DELETE</button> : null}
 
                                 </div>
@@ -194,4 +203,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps, { getallProduct, changestatus, getallorder})(Admin);
+export default connect(mapStateToProps, { getallProduct, buyproduct, changestatus, getallorder})(Admin);

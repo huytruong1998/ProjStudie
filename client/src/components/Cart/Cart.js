@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { addtocart, buyproduct } from '../../action/products';
 import { makeorder} from '../../action/order';
+import color from '@material-ui/core/colors/deepPurple';
 
 class Cart extends Component {
     constructor(){
@@ -23,6 +24,11 @@ class Cart extends Component {
         this.props.addtocart(cartData);
         
     }
+
+    onChange(e) {
+        this.setState({ [e.target.name]: e.target.value });
+    }
+
 
     Decrease(id){
         const cartData = this.props.cart.cart;
@@ -61,7 +67,7 @@ class Cart extends Component {
                 id: item.productid
             }
             var date = new Date().getDate();
-            var month = new Date().getMonth();
+            var month = (new Date().getMonth() +1);
             var hours = new Date().getHours();
             var min = new Date().getMinutes();
             var sec = new Date().getSeconds();
@@ -106,17 +112,18 @@ class Cart extends Component {
                         <div className="description-cart">
                             <h4>{product.name}</h4>
                             <p>{product.brand}</p>
-                            <p>{product.description}</p>
+                            <p>{product.discount !== null ? <span className='original-price'>{product.price.toFixed(2)}€</span>:null } <span style={product.discount !==null ? {color:'red'}:null}>{(product.price*(1-product.discount)).toFixed(2)}€</span> </p>
+                            <button onClick={() => this.Removeproduct(product.productid)}>Remove</button>
                         </div>
                         <div className="priceqty">
                             <div className="proprice">
-                                <h3>{product.discount !== null ? '$' + ((product.price * (1 - product.discount)) * product.quantity) : '$' + product.price}</h3>
+                                <h3 style={product.discount !== null ? { color: 'red' } : null}>{product.discount !== null ? ((parseInt(product.price) * (1 - product.discount)) * parseInt(product.quantity)).toFixed(2) + '€' : parseInt(product.price * product.quantity).toFixed(2) + '€' }</h3>
                             </div>
                             <div className="proquantity">
-                                <p>{product.quantity}</p>
-                                <button onClick={()=> this.Increase(product.productid)}>+</button>
-                                <button onClick={() =>this.Decrease(product.productid)}>-</button>
-                                <button onClick={() => this.Removeproduct(product.productid)}>Remove</button>
+                                <button className='qtychange' onClick={() => this.Increase(product.productid)}>+</button>
+                                <input className='inputqty' value={product.quantity} onChange={this.onChange}/>
+                                <button className='qtychange' onClick={() =>this.Decrease(product.productid)}>-</button>
+                                
                             </div>
                         </div>
                     </div>
@@ -127,7 +134,7 @@ class Cart extends Component {
         return <div className="cart-container">
             <h2>Shopping Cart</h2>
             {showCart}
-            <h2>Total:${totalprice.toFixed(2)} </h2>
+            <h2>Total:{totalprice.toFixed(2)}€ </h2>
             <button onClick={() => this.BuyItem(totalprice)}>Checkout</button>
         </div>
     }
