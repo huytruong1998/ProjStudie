@@ -38,7 +38,7 @@ router.post('/addproducts',(req,res) =>{
         return res.status(400).json(errors);
     }
     const uniqueID = uniqueString();
-    Product.addproduct(uniqueID, req.body.name, req.body.price, req.body.brand, req.body.type, req.body.stocks, req.body.image,req.body.tag, (err, product) => {
+    Product.addproduct(uniqueID, req.body.name, req.body.price, req.body.brand, req.body.type, req.body.stocks, req.body.image,req.body.tag,req.body.discount, (err, product) => {
         if (err.length = 0) {
             return res.json(err)
         } else {

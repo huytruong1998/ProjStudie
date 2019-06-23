@@ -53,3 +53,27 @@
 .order-admin-display{
     width: 100%;
 }
+
+.product-admin-display{
+    position: relative;
+}
+
+.center-square{
+  margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+.new-button{
+    border-radius: 50%;
+    border-style: dotted;
+    padding: 20px 25px 20px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}

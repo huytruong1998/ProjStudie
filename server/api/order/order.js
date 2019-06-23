@@ -2,6 +2,8 @@ const db = require('../../database')
 const express = require('express');
 const uniqueString = require('unique-string');
 const Order = require('../../models/order');
+const nodemailer = require('nodemailer');
+const _ = require('lodash');
 
 const router = express.Router();
 
@@ -34,14 +36,44 @@ router.get('/getallorder',(req,res)=>{
 })
 
 
-router.post('/array',(req,res)=>{
+router.post('/neworder',(req,res)=>{
     const uniqueID = uniqueString();
-    Order.createOrder(uniqueID, req.body.startdate, req.body.item, req.body.status, req.body.enddate, req.body.userid, req.body.totalprice,(err,order)=>{
+    Order.createOrder(uniqueID, req.body.startdate, req.body.item, req.body.status, req.body.enddate, req.body.userid, req.body.totalprice,req.body.email,(err,order)=>{
         if (err) {
             return res.json(err);
         }
         return res.json(order);
     })
+    nodemailer.createTestAccount((err,account)=>{
+
+        const htmlEmail=`
+        <h3>Your Purchase</h3>
+        <h3>${req.body.item.order}</h3>
+        `
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.ethereal.email',
+            port: 587,
+            auth: {
+                user: 'katheryn53@ethereal.email',
+                pass: 'nH9mRaB7x3fUZuveza'
+            }
+        });
+        let mailOptions={
+            from:'test@testaccount.com',
+            to:'katheryn53@ethereal.email',
+            replyTo:'test@testaccount.com',
+            subject:'New Message',
+            html:htmlEmail
+        }
+
+        transporter.sendMail(mailOptions,(err,info)=>{
+            if(err){
+                return console.log(err);
+            }
+            
+        })
+    })
+
 })
 
 router.post('/checkorderstock',(req,res)=>{

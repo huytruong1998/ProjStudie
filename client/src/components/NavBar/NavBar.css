@@ -84,9 +84,9 @@
 .menu-toggle:hover,
 .NavBarContent nav ul li a:hover,
 .NavBarContent nav ul li a.active{
-    color: #b82b21;
+    color: #f6f0e9;
     transition: 0.3s;
-    background: #f6f0e9;
+    background: #b82b21;
 }
 
 .menu-toggle{
@@ -115,7 +115,7 @@
     }
 
     .menu-toggle-active{
-        background: #17a2b8;
+        background: #b82b21;
         color: #fff;
          transition: 0.3s;
     }

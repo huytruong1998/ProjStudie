@@ -12,12 +12,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+
 class ProductItem extends Component {
 
     constructor() {
         super();
         this.state = {
-            quantity: 1
+            quantity: 1,
+            openbuynow:false
         }
         this.onChange = this.onChange.bind(this);
     }
@@ -30,7 +32,7 @@ class ProductItem extends Component {
         const cartData = {
             productid: id,
             quantity: quantity,
-            price: parseInt(this.props.product.product[0].price),
+            price:  this.props.product.product[0].price,
             name: this.props.product.product[0].name,
             discount: this.props.product.product[0].discount,
             type: this.props.product.product[0].type,
@@ -96,10 +98,20 @@ class ProductItem extends Component {
             item: orderArray,
             status: 'new',
             userid: this.props.auth.user.id,
-            totalprice: totalprice
+            totalprice: totalprice,
+            email: this.props.auth.user.email
         }
         this.props.makeorder(orderData);
         this.props.getproduct(this.props.match.params.id);
+        this.setState({ openbuynow: false })
+    }
+
+    handleClickOpen() {
+        this.setState({ openbuynow: true })
+    }
+
+    handleClose() {
+        this.setState({openbuynow:false})
     }
 
 
@@ -208,7 +220,29 @@ class ProductItem extends Component {
                         </div>
                         
                         <div className='BuyNow'>
-                            <button className='BuyButton' onClick={() => this.BuyItem(this.state.quantity, productprice)}>Buy Now</button>
+                            <button className='BuyButton' onClick = {()=>this.handleClickOpen()}>Buy Now</button>
+                            <Dialog
+                                open={this.state.openbuynow}
+                                onClose={()=>this.handleClose()}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                            >
+                                <DialogTitle id="alert-dialog-title">{"WARNING !!!"}</DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText id="alert-dialog-description">
+                                        Are you sure you want to make this purchase ?
+                                        After purchase you can't refund the item.
+                            </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={()=>this.handleClose()} color="primary">
+                                        Disagree
+                            </Button>
+                                    <Button onClick={()=>this.BuyItem(this.state.quantity,productprice)} color="primary" autoFocus>
+                                        Agree
+                            </Button>
+                                </DialogActions>
+                            </Dialog>
                         </div>
                     </div>
                 </div>

@@ -121,7 +121,7 @@ class Admin extends Component {
                         selectorder = (
                             <div className='selectOrderArea'>
                                 <p>OrderID: {order.orderid}</p>
-                                <p>UserID: {order.userid}</p>
+                                <p>Email: {order.email}</p>
                                 {OrderItem}
                                 <p>Total Price:{order.totalprice.toFixed(2)}€</p>
                                 <div className='row'>
@@ -155,7 +155,13 @@ class Admin extends Component {
                 <div className="product-item">
                     <div className="product-style-grid-admin">
                         {this.state.tab === 'product' ? productcontent : null}
-                        
+                        <div className="product-admin-display" >
+                        <div className='center-square'>
+                                <h2>NEW</h2>
+                                <button className='new-button'>+</button>
+                        </div>
+                            
+                        </div>
                     </div>
                     <div className='order-style-grid-admin'>
                     <div className='row'>
