@@ -2,10 +2,10 @@ const db = require('../database');
 const _ = require('lodash')
 
 class Order {
-    static createOrder(uniqueID, startdate, item, status, enddate, userid, totalprice, callback) {
+    static createOrder(uniqueID, startdate, item, status, enddate, userid, totalprice,email, callback) {
         db.query(
-            `INSERT INTO public.order( orderid,startdate,item,status,enddate,userid,totalprice ) VALUES ($1,$2,$3,$4,$5,$6,$7);`,
-            [uniqueID, startdate, item, status, enddate, userid, totalprice], (err, res) => {
+            `INSERT INTO public.order( orderid,startdate,item,status,enddate,userid,totalprice,email ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8);`,
+            [uniqueID, startdate, item, status, enddate, userid, totalprice,email], (err, res) => {
                 if (err.errors) {
                     return callback(err)
                 }

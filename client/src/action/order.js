@@ -3,7 +3,7 @@ import { MAKE_ORDER, GET_ERRORS, GET_ALL_ORDER, CHANGE_ORDER_STATUS } from './ty
 
 export const makeorder = (orderdata) => (dispatch) => {
     axios
-        .post('/api/order/array', orderdata)
+        .post('/api/order/neworder', orderdata)
         .then(res => dispatch({
             type: MAKE_ORDER,
             payload: res.data

@@ -12,12 +12,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+
 class ProductItem extends Component {
 
     constructor() {
         super();
         this.state = {
-            quantity: 1
+            quantity: 1,
+            openbuynow:false
         }
         this.onChange = this.onChange.bind(this);
     }
@@ -30,7 +32,7 @@ class ProductItem extends Component {
         const cartData = {
             productid: id,
             quantity: quantity,
-            price: parseInt(this.props.product.product[0].price),
+            price:  this.props.product.product[0].price,
             name: this.props.product.product[0].name,
             discount: this.props.product.product[0].discount,
             type: this.props.product.product[0].type,
@@ -96,20 +98,37 @@ class ProductItem extends Component {
             item: orderArray,
             status: 'new',
             userid: this.props.auth.user.id,
-            totalprice: totalprice
+            totalprice: totalprice,
+            email: this.props.auth.user.email
         }
         this.props.makeorder(orderData);
         this.props.getproduct(this.props.match.params.id);
+        this.setState({ openbuynow: false })
     }
 
+    handleClickOpen() {
+        this.setState({ openbuynow: true })
+    }
 
+    handleClose() {
+        this.setState({openbuynow:false})
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.product.product !== null) {
+            if (prevProps.product.product === this.props.product.product) {
+                this.props.getproduct(this.props.match.params.id);
+            }
+        }
+
+    }
 
     componentDidMount() {
         this.props.getproduct(this.props.match.params.id);
         this.props.getallProduct();
     }
     render() {
-        let imageproduct, productbrand, showproductprice, productprice, productname, cartprice, shippingprice, productdesc;
+        let imageproduct, productbrand, showproductprice, productprice, productname, cartprice, shippingprice, productdesc,buyalert,buydeny;
         let stocknumber;
 
         const products = _.take(_.sortBy(this.props.product.products, (product) => {
@@ -146,7 +165,56 @@ class ProductItem extends Component {
             productname = this.props.product.product[0].name;
             productdesc = this.props.product.product[0].description;
             productbrand = <a href="#">{this.props.product.product[0].brand}</a>;
-            
+            buyalert = <Dialog
+                open={this.state.openbuynow}
+                onClose={() => this.handleClose()}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"WARNING !!!"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Are you sure you want to make this purchase ?
+                        After purchase you can't refund the item.
+                            </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => this.handleClose()} color="primary">
+                        Disagree
+                            </Button>
+                    <Button onClick={() => this.BuyItem(this.state.quantity, productprice)} color="primary" autoFocus>
+                        Agree
+                            </Button>
+                </DialogActions>
+            </Dialog>
+
+            buydeny = <Dialog
+                open={this.state.openbuynow}
+                onClose={() => this.handleClose()}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"WARNING !!!"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        You need to loged in to buy the item?
+                        Please log in or sign in your account
+                            </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => this.handleClose()} color="primary">
+                        Cancel
+                            </Button>
+                    <Button color="primary" autoFocus><Link to='/login'>
+                            Log In
+                    </Link>
+                            </Button>
+                    <Button color="primary" autoFocus><Link to='/signup'>
+                        Sign Up
+                    </Link>
+                            </Button>
+                </DialogActions>
+            </Dialog>
 
             if (this.props.product.product[0].discount !== null){
                 productprice = this.props.product.product[0].price * (1- this.props.product.product[0].discount)
@@ -200,7 +268,13 @@ class ProductItem extends Component {
 
                         <div className="quantity">
                             <label htmlFor="quantity" className="a-native-dropdown">Qty:</label>
-                            <input type="number" min="0" step="1" maxLength="4"  value={this.state.quantity} name='quantity' onChange={this.onChange}/>
+                            <select id="lang" name='quantity' onChange={this.onChange} value={this.state.quantity}>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">5</option>
+                                <option value="5">6</option>
+                            </select>
                         </div>
 
                         <div className='AddtoCart'>
@@ -208,7 +282,8 @@ class ProductItem extends Component {
                         </div>
                         
                         <div className='BuyNow'>
-                            <button className='BuyButton' onClick={() => this.BuyItem(this.state.quantity, productprice)}>Buy Now</button>
+                            <button className='BuyButton' onClick = {()=>this.handleClickOpen()}>Buy Now</button>
+                            {this.props.auth.isAuthenticated === true ? buyalert : buydeny}
                         </div>
                     </div>
                 </div>

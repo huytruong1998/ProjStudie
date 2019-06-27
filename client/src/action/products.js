@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_ALL_PRODUCT, CLEAR_ALL_PRODUCT, GET_PRODUCT, ADD_TO_CART, GET_ERRORS, BUY_PRODUCT, CHECK_STOCK, SHOW_CART } from './types';
+import { GET_ALL_PRODUCT, ADD_PRODUCT, CLEAR_ALL_PRODUCT, GET_PRODUCT, ADD_TO_CART, GET_ERRORS, BUY_PRODUCT, CHECK_STOCK, SHOW_CART } from './types';
 import setAuthToken from '../utils/setAuthToken';
 
 export const getallProduct = () => (dispatch) => {
@@ -48,6 +48,16 @@ export const buyproduct = (buyData) => (dispatch) => {
             })
         );
 }
+export const addproduct = (addData) => (dispatch) => {
+    axios
+        .post(`/api/products/addproducts`, addData)
+        .catch(err => dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+        }));
+}
+
+
 
 export const addtocart = (cartData) => ({
     type: ADD_TO_CART,

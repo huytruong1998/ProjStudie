@@ -40,7 +40,7 @@ const strategy = new JwtStrategy(opts, (payload, next) => {
 
 passport.use(strategy);
 app.use(passport.initialize());
-
+app.use(express.static('./upload'))
 app.use(morgan('dev'));
 
 app.use((req, res, next) => {

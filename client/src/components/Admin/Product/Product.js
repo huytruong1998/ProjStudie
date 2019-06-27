@@ -4,21 +4,23 @@ import { connect } from 'react-redux';
 import { getproduct, editproduct, buyproduct, addtocart } from '../../../action/products';
 import isEmpty from '../../../validation/is-empty';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 class AdminItem extends Component {
     constructor(){
         super();
         this.state={
-            name:null,
-            price:null,
-            discount:null,
-            brand:null,
-            type:null,
-            description:null,
-            country:null,
-            image:null,
-            tag:null,
-            stocks:null
+            name:'',
+            price:'',
+            discount:'',
+            brand:'',
+            type:'',
+            description:'',
+            country:'',
+            image:'',
+            tag:'',
+            stocks:'',
+            errors:{}
         }
         this.onChange = this.onChange.bind(this);
         
@@ -83,6 +85,7 @@ class AdminItem extends Component {
     }
     render() {
         const product = this.props.product.product;
+        const {errors} = this.state;
         if(product === null){
             return <h1>Loading</h1>
         }else{
@@ -93,28 +96,65 @@ class AdminItem extends Component {
                     </div>
                     <div>
                         <span>Name</span>
-                        <p><input type="text" placeholder='name' name='name' onChange={this.onChange} value={this.state.name}/> </p>
+                        <p><input type="text" className={classnames('form-control form-control-lg', {
+                            'is-invalid': errors.name
+                        })} placeholder='name' name='name' onChange={this.onChange} value={this.state.name} />
+                            {errors.name && (
+                                <div className="invalid-feedback">{errors.name}</div>
+                            )} </p>
                         <span>Brand</span>
-                        <p><input type="text" name='brand' placeholder='brand' onChange={this.onChange} value={this.state.brand} /> </p>
+                        <p><input type="text" className={classnames('form-control form-control-lg', {
+                            'is-invalid': errors.brand
+                        })} name='brand' placeholder='brand' onChange={this.onChange} value={this.state.brand} />
+                            {errors.brand && (
+                                <div className="invalid-feedback">{errors.brand}</div>
+                            )} </p>
                         <span>Type</span>
-                        <p><input type="text" name='type' placeholder='type' onChange={this.onChange} value={this.state.type} /> </p>
+                        <p><input type="text" className='form-control form-control-lg' name='type' placeholder='type' onChange={this.onChange} value={this.state.type} /> </p>
                         <span>Description</span>
-                        <p><textarea style={{height:'250px'}} type="text" placeholder='description' name='description' onChange={this.onChange} value={this.state.description} /> </p>
-                        
+                        <p><textarea style={{ height: '250px' }} className='form-control form-control-lg' type="text" placeholder='description' name='description' onChange={this.onChange} value={this.state.description} /> </p>
+
                     </div>
                     <div>
                         <span>Country</span>
-                        <p><input type="text" placeholder='country' name='country' onChange={this.onChange} value={this.state.country} /> </p>
+                        <p><input type="text" className='form-control form-control-lg' placeholder='country' name='country' onChange={this.onChange} value={this.state.country} /> </p>
                         <span>Discount</span>
-                        <p><input type="number" placeholder='discount' name='discount' onChange={this.onChange} value={this.state.discount} />% </p>
+                        <p><input type="number" min='0' className='form-control form-control-lg' style={{ display: 'inline-block' }} placeholder='discount(%)' name='discount' onChange={this.onChange} value={this.state.discount} />%</p>
                         <span>Price</span>
-                        <p><input type="text" placeholder='price' name='price' onChange={this.onChange} value={this.state.price} /> </p>
+                        <p><input type="text" min='0' className={classnames('form-control form-control-lg', {
+                            'is-invalid': errors.price
+                        })} placeholder='price' name='price' onChange={this.onChange} value={this.state.price} />
+                            {errors.name && (
+                                <div className="invalid-feedback">{errors.name}</div>
+                            )} </p>
                         <span>Tag</span>
-                        <p><input type="text" placeholder='tag' name='tag' onChange={this.onChange} value={this.state.tag} /> </p>
+                        <p>
+                            <select id="lang" className={classnames('form-control form-control-lg', {
+                                'is-invalid': errors.tag
+                            })} name='tag' onChange={this.onChange} value={this.state.tag}>
+                                <option value="equipment">equipment</option>
+                                <option value="accessories">accessories</option>
+                                <option value="clothing">clothing</option>
+
+                            </select>
+
+                            {errors.tag && (
+                                <div className="invalid-feedback">{errors.tag}</div>
+                            )}  </p>
                         <span>Stocks</span>
-                        <p><input type="text" placeholder='stocks' name='stocks' onChange={this.onChange} value={this.state.stocks} /> </p>
+                        <p><input type="number" className={classnames('form-control form-control-lg', {
+                            'is-invalid': errors.stocks
+                        })} placeholder='stocks' name='stocks' onChange={this.onChange} value={this.state.stocks} />
+                            {errors.stocks && (
+                                <div className="invalid-feedback">{errors.stocks}</div>
+                            )} </p>
                         <span>Image url</span>
-                        <p><input type="text" placeholder='image' name='image' onChange={this.onChange} value={this.state.image} /> </p>
+                        <p><input type="text" className={classnames('form-control form-control-lg', {
+                            'is-invalid': errors.image
+                        })} placeholder='image' name='image' onChange={this.onChange} value={this.state.image} />
+                            {errors.image && (
+                                <div className="invalid-feedback">{errors.image}</div>
+                            )} </p>
                         <button onClick={() =>this.editproduct(this.props.match.params.id)}>APPLY</button>
                     </div>
                 </div>
