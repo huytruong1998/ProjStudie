@@ -2,10 +2,10 @@ const db = require('../database')
 const uniqueString = require('unique-string');
 
 class Product {
-    static addproduct(uniqueID, name, price, brand, type, stocks, image,tag,discount, callback) {
+    static addproduct(uniqueID, name, price, brand, type, stocks, image, tag, discount, description, country, callback) {
         db.query(
-            `INSERT INTO public.products( id,name, price,brand,type,stocks,image,tag,discount ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9);`,
-            [uniqueID, name, price, brand, type, stocks,image,tag,discount], (err, res) => {
+            `INSERT INTO public.products( id,name, price,brand,type,stocks,image,tag,discount,description,country ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11);`,
+            [uniqueID, name, price, brand, type, stocks, image, tag, discount, description, country], (err, res) => {
                 if (err.errors) {
                     return callback(err)
                 }

@@ -10,6 +10,7 @@ import ProductPage from './components/Product/ProductPage';
 import ProductItem from './components/Product/ProductItem';
 import AdminItem from './components/Admin/Product/Product';
 import PrivateRoute from './components/common/PrivateRoute';
+import CreateProduct from './components/Admin/Product/CreateProduct'
 
 
 import jwt_decode from "jwt-decode";
@@ -53,10 +54,11 @@ class App extends Component {
               <Route exact path="/product" component={ProductPage} />
               <Route exact path="/cart" component={Cart} />
               <Route exact path="/product/:id" component={ProductItem} />
-              <Route exact path="/product/admin/:id" component={AdminItem} />
               
               <Switch>
                 <PrivateRoute exact path="/admin" component={Admin} />
+                <PrivateRoute exact path="/product/admin/:id" component={AdminItem} />
+                <PrivateRoute exact path="/addproduct" component={CreateProduct} />
               </Switch>
           </div>
           <Footer />

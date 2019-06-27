@@ -110,7 +110,7 @@ class Cart extends Component {
     
     render() {
         const cartData = this.props.cart.cart;
-        let showCart,infodisplay;
+        let showCart,infodisplay,buyalert,buydeny;
         let totalprice = 0;
 
         if(cartData === null || cartData.length === 0){
@@ -118,7 +118,56 @@ class Cart extends Component {
             totalprice = 0;
             infodisplay = <h2>Click <Link to='/product'>here</Link> to continue shopping</h2>
         }else{
-            
+            buyalert = <Dialog
+                    open={this.state.openbuynow}
+                    onClose={() => this.handleClose()}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{"WARNING !!!"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Are you sure you want to make this purchase ?
+                            After purchase you can't refund the item.
+                            </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => this.handleClose()} color="primary">
+                            Disagree
+                            </Button>
+                        <Button onClick={() => this.BuyItem(totalprice)} color="primary" autoFocus>
+                            Agree
+                            </Button>
+                    </DialogActions>
+                </Dialog>
+
+            buydeny = <Dialog
+                open={this.state.openbuynow}
+                onClose={() => this.handleClose()}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"WARNING !!!"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        You need to loged in to buy the item?
+                        Please log in or sign in your account
+                            </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => this.handleClose()} color="primary">
+                        Cancel
+                            </Button>
+                    <Button color="primary" autoFocus><Link to='/login'>
+                        Log In
+                    </Link>
+                    </Button>
+                    <Button color="primary" autoFocus><Link to='/signup'>
+                        Sign Up
+                    </Link>
+                    </Button>
+                </DialogActions>
+            </Dialog>
             showCart = _.map(cartData,(product,index)=>{
                 if (product.discount !== null){
                     totalprice = totalprice + ((parseFloat(product.price) * (1 -product.discount)) * parseInt(product.quantity));
@@ -152,28 +201,8 @@ class Cart extends Component {
             });
             infodisplay = <div className='infodisplay'><h2>Total:{totalprice.toFixed(2)}€ </h2>
                 <button className='checkout' onClick={() => this.handleClickOpen()}>Checkout</button>
-                <Dialog
-                    open={this.state.openbuynow}
-                    onClose={() => this.handleClose()}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title">{"WARNING !!!"}</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            Are you sure you want to make this purchase ?
-                            After purchase you can't refund the item.
-                            </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={() => this.handleClose()} color="primary">
-                            Disagree
-                            </Button>
-                        <Button onClick={() => this.BuyItem(totalprice)} color="primary" autoFocus>
-                            Agree
-                            </Button>
-                    </DialogActions>
-                </Dialog></div>
+                {this.props.auth.isAuthenticated === true ? buyalert:buydeny}
+                </div>
         }
        
         return <div className="cart-container">

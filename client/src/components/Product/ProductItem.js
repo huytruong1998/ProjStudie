@@ -114,14 +114,21 @@ class ProductItem extends Component {
         this.setState({openbuynow:false})
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.product.product !== null) {
+            if (prevProps.product.product === this.props.product.product) {
+                this.props.getproduct(this.props.match.params.id);
+            }
+        }
 
+    }
 
     componentDidMount() {
         this.props.getproduct(this.props.match.params.id);
         this.props.getallProduct();
     }
     render() {
-        let imageproduct, productbrand, showproductprice, productprice, productname, cartprice, shippingprice, productdesc;
+        let imageproduct, productbrand, showproductprice, productprice, productname, cartprice, shippingprice, productdesc,buyalert,buydeny;
         let stocknumber;
 
         const products = _.take(_.sortBy(this.props.product.products, (product) => {
@@ -158,7 +165,56 @@ class ProductItem extends Component {
             productname = this.props.product.product[0].name;
             productdesc = this.props.product.product[0].description;
             productbrand = <a href="#">{this.props.product.product[0].brand}</a>;
-            
+            buyalert = <Dialog
+                open={this.state.openbuynow}
+                onClose={() => this.handleClose()}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"WARNING !!!"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Are you sure you want to make this purchase ?
+                        After purchase you can't refund the item.
+                            </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => this.handleClose()} color="primary">
+                        Disagree
+                            </Button>
+                    <Button onClick={() => this.BuyItem(this.state.quantity, productprice)} color="primary" autoFocus>
+                        Agree
+                            </Button>
+                </DialogActions>
+            </Dialog>
+
+            buydeny = <Dialog
+                open={this.state.openbuynow}
+                onClose={() => this.handleClose()}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"WARNING !!!"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        You need to loged in to buy the item?
+                        Please log in or sign in your account
+                            </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => this.handleClose()} color="primary">
+                        Cancel
+                            </Button>
+                    <Button color="primary" autoFocus><Link to='/login'>
+                            Log In
+                    </Link>
+                            </Button>
+                    <Button color="primary" autoFocus><Link to='/signup'>
+                        Sign Up
+                    </Link>
+                            </Button>
+                </DialogActions>
+            </Dialog>
 
             if (this.props.product.product[0].discount !== null){
                 productprice = this.props.product.product[0].price * (1- this.props.product.product[0].discount)
@@ -212,7 +268,13 @@ class ProductItem extends Component {
 
                         <div className="quantity">
                             <label htmlFor="quantity" className="a-native-dropdown">Qty:</label>
-                            <input type="number" min="0" step="1" maxLength="4"  value={this.state.quantity} name='quantity' onChange={this.onChange}/>
+                            <select id="lang" name='quantity' onChange={this.onChange} value={this.state.quantity}>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">5</option>
+                                <option value="5">6</option>
+                            </select>
                         </div>
 
                         <div className='AddtoCart'>
@@ -221,28 +283,7 @@ class ProductItem extends Component {
                         
                         <div className='BuyNow'>
                             <button className='BuyButton' onClick = {()=>this.handleClickOpen()}>Buy Now</button>
-                            <Dialog
-                                open={this.state.openbuynow}
-                                onClose={()=>this.handleClose()}
-                                aria-labelledby="alert-dialog-title"
-                                aria-describedby="alert-dialog-description"
-                            >
-                                <DialogTitle id="alert-dialog-title">{"WARNING !!!"}</DialogTitle>
-                                <DialogContent>
-                                    <DialogContentText id="alert-dialog-description">
-                                        Are you sure you want to make this purchase ?
-                                        After purchase you can't refund the item.
-                            </DialogContentText>
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button onClick={()=>this.handleClose()} color="primary">
-                                        Disagree
-                            </Button>
-                                    <Button onClick={()=>this.BuyItem(this.state.quantity,productprice)} color="primary" autoFocus>
-                                        Agree
-                            </Button>
-                                </DialogActions>
-                            </Dialog>
+                            {this.props.auth.isAuthenticated === true ? buyalert : buydeny}
                         </div>
                     </div>
                 </div>

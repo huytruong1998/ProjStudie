@@ -45,10 +45,17 @@ router.post('/neworder',(req,res)=>{
         return res.json(order);
     })
     nodemailer.createTestAccount((err,account)=>{
+        const itemorder = _.map(req.body.item.order,(item)=>{
+            itemprice = parseFloat(item.price * (1 - item.discount)).toFixed(2);
+            itemtotal = parseFloat(itemprice * item.quantity).toFixed(2);
+        
+            return `<p>${item.name} = ${itemprice}€ x ${item.quantity} = ${itemtotal}€</p>`
+        })
 
         const htmlEmail=`
         <h3>Your Purchase</h3>
-        <h3>${req.body.item.order}</h3>
+        <h3>${itemorder}</h3>
+        <h3>Total: ${parseFloat(req.body.totalprice).toFixed(2)}€</h3>
         `
         const transporter = nodemailer.createTransport({
             host: 'smtp.ethereal.email',
@@ -65,10 +72,11 @@ router.post('/neworder',(req,res)=>{
             subject:'New Message',
             html:htmlEmail
         }
+        console.log(req.body.item.order[0]);
 
         transporter.sendMail(mailOptions,(err,info)=>{
             if(err){
-                return console.log(err);
+                return console.log(req.body.item.order);
             }
             
         })

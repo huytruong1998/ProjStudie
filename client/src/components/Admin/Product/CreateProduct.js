@@ -1,24 +1,26 @@
 import React, { Component } from 'react';
 import '../Admin.css';
 import { connect } from 'react-redux';
-import { getproduct, editproduct, buyproduct, addtocart } from '../../../action/products';
+import { addproduct} from '../../../action/products';
 import isEmpty from '../../../validation/is-empty';
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 class CreateProduct extends Component {
     constructor() {
         super();
         this.state = {
-            name: null,
-            price: null,
-            discount: null,
-            brand: null,
-            type: null,
-            description: null,
-            country: null,
-            image: null,
-            tag: null,
-            stocks: null
+            name: '',
+            price: '',
+            discount: '',
+            brand: '',
+            type: '',
+            description: '',
+            country: '',
+            image: '',
+            tag: 'equipment',
+            stocks: '',
+            errors: {}
         }
         this.onChange = this.onChange.bind(this);
 
@@ -28,44 +30,7 @@ class CreateProduct extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    componentWillMount() {
-        this.props.getproduct(this.props.match.params.id);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.product.product) {
-            const product = nextProps.product.product[0];
-            // If product field doesnt exist, make empty string
-            product.name = !isEmpty(product.name) ? product.name : '';
-            product.brand = !isEmpty(product.brand) ? product.brand : '';
-            product.type = !isEmpty(product.type) ? product.type : '';
-            product.country = !isEmpty(product.country) ? product.country : '';
-            product.description = !isEmpty(product.description) ? product.description : '';
-            product.discount = !isEmpty(product.discount) ? product.discount : null;
-            product.image = !isEmpty(product.image) ? product.image : null;
-            product.price = !isEmpty(product.price) ? product.price : null;
-            product.tag = !isEmpty(product.tag) ? product.tag : '';
-            product.stocks = !isEmpty(product.stocks) ? product.stocks : 0;
-
-            this.setState({
-                name: product.name,
-                brand: product.brand,
-                type: product.type,
-                country: product.country,
-                description: product.description,
-                discount: product.discount * 100,
-                image: product.image,
-                price: product.price,
-                tag: product.tag,
-                stocks: product.stocks
-            })
-
-
-        }
-    }
-
-    editproduct(id) {
-
+    CreateProduct(){
         const productdata = {
             name: this.state.name,
             brand: this.state.brand,
@@ -78,14 +43,51 @@ class CreateProduct extends Component {
             tag: this.state.tag,
             stocks: this.state.stocks
         }
-        this.props.editproduct(productdata, id);
-
+        this.props.addproduct(productdata)
+        
     }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.errors) {
+            this.setState({ errors: nextProps.errors });
+        }
+    }
+
     render() {
-        const product = this.props.product.product;
-        if (product === null) {
-            return <h1>Loading</h1>
-        } else {
+        const {errors} = this.state;
+        let propertype;
+        
+        if(this.state.tag === 'accessories'){
+            propertype = <select id="lang" className={classnames('form-control form-control-lg', {
+                'is-invalid': errors.type
+            })} name='type' onChange={this.onChange} value={this.state.type}>
+                <option value="Earring">Earring</option>
+                <option value="Necklace">Necklace</option>
+                <option value="Bag">Bag</option>
+            </select> 
+        } else if (this.state.tag === 'clothes'){
+            propertype = <select id="lang" className={classnames('form-control form-control-lg', {
+                'is-invalid': errors.type
+            })} name='type' onChange={this.onChange} value={this.state.type}>
+                <option value="Hat">Hat</option>
+                <option value="Shoe">Shoe</option>
+                <option value="Jacket">Jacket</option>
+            </select> 
+        } else if (this.state.tag === 'equipment'){
+            propertype = <select id="lang" className={classnames('form-control form-control-lg', {
+                'is-invalid': errors.type
+            })} name='type' onChange={this.onChange} value={this.state.type}>
+                <option value="Skateboard">Skateboard</option>
+                <option value="Snowboard">Snowboard</option>
+            </select> 
+        }else{
+            propertype = <select id="lang" className={classnames('form-control form-control-lg', {
+                'is-invalid': errors.type
+            })} name='type' onChange={this.onChange} value={this.state.type}>
+                <option value=" "> </option>
+            </select> 
+        }
+        
             return <div className="admin-container">
                 <div className="edit-item-style">
                     <div className="imgdisplay">
@@ -93,47 +95,88 @@ class CreateProduct extends Component {
                     </div>
                     <div>
                         <span>Name</span>
-                        <p><input type="text" placeholder='name' name='name' onChange={this.onChange} value={this.state.name} /> </p>
+                        <p><input type="text" className={classnames('form-control form-control-lg', {
+                            'is-invalid': errors.name
+                        })} placeholder='name' name='name' onChange={this.onChange} value={this.state.name} />
+                            {errors.name && (
+                                <div className="invalid-feedback">{errors.name}</div>
+                            )} </p>
                         <span>Brand</span>
-                        <p><input type="text" name='brand' placeholder='brand' onChange={this.onChange} value={this.state.brand} /> </p>
+                        <p><input type="text" className={classnames('form-control form-control-lg', {
+                            'is-invalid': errors.brand
+                        })} name='brand' placeholder='brand' onChange={this.onChange} value={this.state.brand} />
+                            {errors.brand && (
+                                <div className="invalid-feedback">{errors.brand}</div>
+                            )} </p>
                         <span>Type</span>
-                        <p><input type="text" name='type' placeholder='type' onChange={this.onChange} value={this.state.type} /> </p>
+                        <p>{propertype}{errors.type && (
+                            <div className="invalid-feedback">{errors.type}</div>
+                        )}</p>
                         <span>Description</span>
-                        <p><textarea style={{ height: '250px' }} type="text" placeholder='description' name='description' onChange={this.onChange} value={this.state.description} /> </p>
+                        <p><textarea style={{ height: '250px' }} className='form-control form-control-lg' type="text" placeholder='description' name='description' onChange={this.onChange} value={this.state.description} /> </p>
 
                     </div>
                     <div>
                         <span>Country</span>
-                        <p><input type="text" placeholder='country' name='country' onChange={this.onChange} value={this.state.country} /> </p>
+                        <p><input type="text" className='form-control form-control-lg' placeholder='country' name='country' onChange={this.onChange} value={this.state.country} /> </p>
                         <span>Discount</span>
-                        <p><input type="number" placeholder='discount' name='discount' onChange={this.onChange} value={this.state.discount} />% </p>
+                        <p><input type="number" min='0' className='form-control form-control-lg' style={{display:'inline-block'}} placeholder='discount(%)' name='discount' onChange={this.onChange} value={this.state.discount} />%</p>
                         <span>Price</span>
-                        <p><input type="text" placeholder='price' name='price' onChange={this.onChange} value={this.state.price} /> </p>
+                        <p><input type="text" min='0' className={classnames('form-control form-control-lg', {
+                            'is-invalid': errors.price
+                        })} placeholder='price' name='price' onChange={this.onChange} value={this.state.price} />
+                            {errors.name && (
+                                <div className="invalid-feedback">{errors.name}</div>
+                            )} </p>
                         <span>Tag</span>
-                        <p><input type="text" placeholder='tag' name='tag' onChange={this.onChange} value={this.state.tag} /> </p>
+                        <p>
+                            <select id="lang" className={classnames('form-control form-control-lg', {
+                                'is-invalid': errors.tag
+                            })} name='tag' onChange={this.onChange} value={this.state.tag}>
+                                <option value="equipment">equipment</option>
+                                <option value="accessories">accessories</option>
+                                <option value="clothes">clothes</option>
+                                
+                            </select> 
+                        
+                            {errors.tag && (
+                                <div className="invalid-feedback">{errors.tag}</div>
+                            )}  </p>
                         <span>Stocks</span>
-                        <p><input type="text" placeholder='stocks' name='stocks' onChange={this.onChange} value={this.state.stocks} /> </p>
+                        <p><input type="number" className={classnames('form-control form-control-lg', {
+                            'is-invalid': errors.stocks
+                        })} placeholder='stocks' name='stocks' onChange={this.onChange} value={this.state.stocks} />
+                            {errors.stocks && (
+                                <div className="invalid-feedback">{errors.stocks}</div>
+                            )} </p>
                         <span>Image url</span>
-                        <p><input type="text" placeholder='image' name='image' onChange={this.onChange} value={this.state.image} /> </p>
-                        <button onClick={() => this.editproduct(this.props.match.params.id)}>APPLY</button>
+                        <p><input type="text" className={classnames('form-control form-control-lg', {
+                            'is-invalid': errors.image
+                        })} placeholder='image' name='image' onChange={this.onChange} value={this.state.image} />
+                            {errors.image && (
+                                <div className="invalid-feedback">{errors.image}</div>
+                            )} </p>
+                        <button className='create-product' onClick={()=>this.CreateProduct()}>Create New</button>
                     </div>
                 </div>
             </div>
         }
 
 
-    }
+    
 }
 
 CreateProduct.propTypes = {
-    product: PropTypes.object.isRequired
+    product: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    product: state.product
+    product: state.product,
+    errors: state.errors
 });
 
 export default connect(
     mapStateToProps,
-    { getproduct, buyproduct, addtocart, editproduct }
+     {addproduct}
 )(CreateProduct);

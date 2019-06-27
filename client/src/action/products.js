@@ -51,18 +51,10 @@ export const buyproduct = (buyData) => (dispatch) => {
 export const addproduct = (addData) => (dispatch) => {
     axios
         .post(`/api/products/addproducts`, addData)
-        .then(res =>
-            dispatch({
-                type: ADD_PRODUCT,
-                payload: res.data
-            })
-        )
-        .catch(err =>
-            dispatch({
-                type: GET_ERRORS,
-                payload: err.response.data
-            })
-        );
+        .catch(err => dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+        }));
 }
 
 

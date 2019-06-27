@@ -87,7 +87,7 @@ class Product extends Component {
             displayproduct = <h1>Nothing here</h1>
         }else{
             const filterproduct  = _.filter(products,(product)=>{
-            return product.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+                return (product.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 || product.brand.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1);
             })
         
             

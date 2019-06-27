@@ -26,8 +26,6 @@ class Admin extends Component {
         if (nextProps.orders.orders === this.props.orders.orders){
             this.props.getallorder();
         }
-        
-        
     }
 
     slectOrder(id){
@@ -85,6 +83,7 @@ class Admin extends Component {
         } else{
             productcontent = _.map(products,(product,index)=>{
                 return(
+                    
                     <div className="product-admin-display" key={index}>
                         <img src={product.image} alt="" style={{width: 200}} />
                         <span>Price:{parseFloat(product.price * (1 - product.discount)).toFixed(2)}€</span><br/>
@@ -94,6 +93,7 @@ class Admin extends Component {
                         <button>Delete</button>
                         <Link to={`/product/admin/${product.id}`}><button>EDIT</button></Link>
                     </div>
+                    
                 )
             })
             ordercontent = _.orderBy(orders,'startdate').map((order,index)=>{
@@ -135,7 +135,7 @@ class Admin extends Component {
                     }
                     return (
                         <button onClick={() => this.slectOrder(order.orderid)} className="order-admin-display" style={order.status === 'new' ? { backgroundColor: 'green' } : order.status === 'pending' ? { backgroundColor: 'yellow' } : order.status === 'finnished' ? { backgroundColor: 'gray' } : null} key={index}>
-                            <p>{order.startdate}</p>
+                            <p>{order.startdate} ({order.email})</p>
                         </button>
 
                     )
@@ -155,13 +155,13 @@ class Admin extends Component {
                 <div className="product-item">
                     <div className="product-style-grid-admin">
                         {this.state.tab === 'product' ? productcontent : null}
-                        <div className="product-admin-display" >
-                        <div className='center-square'>
+                        {this.state.tab === 'product' ? <div className="product-admin-display" >
+                            <div className='center-square'>
                                 <h2>NEW</h2>
-                                <button className='new-button'>+</button>
-                        </div>
-                            
-                        </div>
+                                <Link to='/addproduct'><button className='new-button'>+</button></Link>  
+                            </div>
+
+                        </div> : null}
                     </div>
                     <div className='order-style-grid-admin'>
                     <div className='row'>
