@@ -86,6 +86,39 @@ class AdminItem extends Component {
     render() {
         const product = this.props.product.product;
         const {errors} = this.state;
+
+        let propertype;
+
+        if (this.state.tag === 'accessories') {
+            propertype = <select id="lang" className={classnames('form-control form-control-lg', {
+                'is-invalid': errors.type
+            })} name='type' onChange={this.onChange} value={this.state.type}>
+                <option value="Earring">Earring</option>
+                <option value="Necklace">Necklace</option>
+                <option value="Bag">Bag</option>
+            </select>
+        } else if (this.state.tag === 'clothes') {
+            propertype = <select id="lang" className={classnames('form-control form-control-lg', {
+                'is-invalid': errors.type
+            })} name='type' onChange={this.onChange} value={this.state.type}>
+                <option value="Hat">Hat</option>
+                <option value="Shoe">Shoe</option>
+                <option value="Jacket">Jacket</option>
+            </select>
+        } else if (this.state.tag === 'equipment') {
+            propertype = <select id="lang" className={classnames('form-control form-control-lg', {
+                'is-invalid': errors.type
+            })} name='type' onChange={this.onChange} value={this.state.type}>
+                <option value="Skateboard">Skateboard</option>
+                <option value="Snowboard">Snowboard</option>
+            </select>
+        } else {
+            propertype = <select id="lang" className={classnames('form-control form-control-lg', {
+                'is-invalid': errors.type
+            })} name='type' onChange={this.onChange} value={this.state.type}>
+                <option value=" "> </option>
+            </select>
+        }
         if(product === null){
             return <h1>Loading</h1>
         }else{
@@ -110,7 +143,9 @@ class AdminItem extends Component {
                                 <div className="invalid-feedback">{errors.brand}</div>
                             )} </p>
                         <span>Type</span>
-                        <p><input type="text" className='form-control form-control-lg' name='type' placeholder='type' onChange={this.onChange} value={this.state.type} /> </p>
+                        <p>{propertype}{errors.type && (
+                            <div className="invalid-feedback">{errors.type}</div>
+                        )} </p>
                         <span>Description</span>
                         <p><textarea style={{ height: '250px' }} className='form-control form-control-lg' type="text" placeholder='description' name='description' onChange={this.onChange} value={this.state.description} /> </p>
 
