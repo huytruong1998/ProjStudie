@@ -6,9 +6,11 @@ import store from './store';
 import { Provider } from 'react-redux';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
+import Profile from './components/Profile/Profile';
 import ProductPage from './components/Product/ProductPage';
 import ProductItem from './components/Product/ProductItem';
 import AdminItem from './components/Admin/Product/Product';
+import PrivateRouteAdmin from './components/common/PrivateRouteAdmin';
 import PrivateRoute from './components/common/PrivateRoute';
 import CreateProduct from './components/Admin/Product/CreateProduct'
 
@@ -56,9 +58,10 @@ class App extends Component {
               <Route exact path="/product/:id" component={ProductItem} />
               
               <Switch>
-                <PrivateRoute exact path="/admin" component={Admin} />
-                <PrivateRoute exact path="/product/admin/:id" component={AdminItem} />
-                <PrivateRoute exact path="/addproduct" component={CreateProduct} />
+                <PrivateRouteAdmin exact path="/admin" component={Admin} />
+                <PrivateRouteAdmin exact path="/product/admin/:id" component={AdminItem} />
+                <PrivateRouteAdmin exact path="/addproduct" component={CreateProduct} />
+                <PrivateRoute exact path='/profile/:id' component={Profile}/>
               </Switch>
           </div>
           <Footer />

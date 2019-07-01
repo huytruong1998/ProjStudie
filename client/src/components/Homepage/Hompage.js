@@ -54,6 +54,10 @@ class Homepage extends Component {
 
 
                 <div className="item-section">
+                    <div className="popular-section">
+                        <h2>CATEGORY</h2>
+                    </div>
+
                     <div className="product-style-grid tagtext">
                         <Link  to={{ pathname: '/product', state: { type: 'clothes' } }} >
                         <div style={{ backgroundImage: `url(${clothes})` }} className="product-col">

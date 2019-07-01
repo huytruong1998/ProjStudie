@@ -15,3 +15,4 @@ export const MAKE_ORDER = 'MAKE_ORDER';
 export const GET_ALL_ORDER = 'GET_ALL_ORDER';
 export const CHANGE_ORDER_STATUS = 'CHANGE_ORDER_STATUS';
 export const ADD_PRODUCT = 'ADD_PRODUCT';
+export const GET_PROFILE_INFO ='GET_PROFILE_INFO';

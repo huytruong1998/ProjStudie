@@ -1,6 +1,6 @@
-import isEmpty from '../validation/is-empty';
 
-import { ADD_TO_CART, SHOW_CART } from '../action/types';
+
+import { ADD_TO_CART } from '../action/types';
 
 const initialState = {
     cart: null

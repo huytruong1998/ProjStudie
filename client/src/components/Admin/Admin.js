@@ -155,7 +155,7 @@ class Admin extends Component {
                 <div className="product-item">
                     <div className="product-style-grid-admin">
                         {this.state.tab === 'product' ? productcontent : null}
-                        {this.state.tab === 'product' ? <div className="product-admin-display" >
+                        {this.state.tab === 'product' ? <div style={{height:'325px'}} className="product-admin-display" >
                             <div className='center-square'>
                                 <h2>NEW</h2>
                                 <Link to='/addproduct'><button className='new-button'>+</button></Link>  

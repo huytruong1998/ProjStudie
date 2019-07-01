@@ -110,7 +110,7 @@ class Cart extends Component {
     
     render() {
         const cartData = this.props.cart.cart;
-        let showCart,infodisplay,buyalert,buydeny;
+        let showCart,infodisplay,buyalert,buydeny,buyprofile;
         let totalprice = 0;
 
         if(cartData === null || cartData.length === 0){
@@ -164,6 +164,30 @@ class Cart extends Component {
                     </Button>
                     <Button color="primary" autoFocus><Link to='/signup'>
                         Sign Up
+                    </Link>
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            buyprofile = <Dialog
+                open={this.state.openbuynow}
+                onClose={() => this.handleClose()}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"WARNING !!!"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        We need you to update your profile.
+                        Location is needed for delivery
+                            </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => this.handleClose()} color="primary">
+                        Cancel
+                            </Button>
+                    <Button color="primary" autoFocus><Link to={`/profile/${this.props.auth.user.id}`}>
+                        Profile
                     </Link>
                     </Button>
                 </DialogActions>
