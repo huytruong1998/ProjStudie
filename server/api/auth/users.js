@@ -55,6 +55,26 @@ router.post('/register', (req, res) => {
     });
 });
 
+//add profile
+router.post('/addprofile/:id', passport.authenticate('jwt', { session: false }),(req,res)=>{
+    User.addprofile(req.params.id,req.body.profile, (err, profile) => {
+        if (err) {
+            return res.json(err);
+        }
+        return res.json(profile)
+    })
+})
+
+//show profile
+router.get('/profileinfo/:id', passport.authenticate('jwt', { session: false }),(req,res)=>{
+    User.getprofile(req.params.id,(err,user)=>{
+        if(err){
+            return res.json(err);
+        }
+        return res.json(user)
+    })
+})
+
 router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
     res.json({
         id: req.user.userid,

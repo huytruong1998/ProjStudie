@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { GET_ALL_PRODUCT, ADD_PRODUCT, CLEAR_ALL_PRODUCT, GET_PRODUCT, ADD_TO_CART, GET_ERRORS, BUY_PRODUCT, CHECK_STOCK, SHOW_CART } from './types';
-import setAuthToken from '../utils/setAuthToken';
+import { GET_ALL_PRODUCT, CLEAR_ALL_PRODUCT, GET_PRODUCT, ADD_TO_CART, GET_ERRORS, BUY_PRODUCT, CHECK_STOCK, SHOW_CART } from './types';
+
 
 export const getallProduct = () => (dispatch) => {
     axios

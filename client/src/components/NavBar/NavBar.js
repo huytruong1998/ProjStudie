@@ -37,7 +37,7 @@ class NavBar extends Component {
                         </li>
                         {this.props.auth.isAuthenticated ? (<li><b><a href="#"><i className="fas fa-user"></i></a></b>
                             <ul>
-                                <li><a href="#">Profile</a></li>
+                                <li><Link to={`/profile/${this.props.auth.user.id}`}>Profile</Link></li>
                                 <li onClick={this.logoutUser.bind(this)} ><a href="#">Logout</a></li>
                             </ul>
                         </li>) : (<li><b><Link to="/login">Login</Link></b> </li>)}
