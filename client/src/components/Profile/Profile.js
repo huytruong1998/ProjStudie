@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { editprofile, getallProfile} from '../../action/profile';
 import './Profile.css';
-import _ from 'lodash';
 import PropTypes from 'prop-types';
 import isEmpty from '../../validation/is-empty';
 import classnames from 'classnames';
@@ -122,16 +121,13 @@ class Profile extends Component {
                             />
                         </div>
                         <div className="form-group">
-                            <input
-                                type="text"
-                                className={classnames('form-control form-control-lg', {
-                                    'is-invalid': errors.email
-                                })}
-                                placeholder="Gender"
-                                name="gender"
-                                value={this.state.gender}
-                                onChange={this.onChange}
-                            />
+                            <select id="lang" className={classnames('form-control form-control-lg', {
+                                'is-invalid': errors.tag
+                            })} onChange={this.onChange} value={this.state.gender}>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
                         </div>
                         <div className="form-group">
                             <input

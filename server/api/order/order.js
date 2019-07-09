@@ -72,7 +72,6 @@ router.post('/neworder',(req,res)=>{
             subject:'New Message',
             html:htmlEmail
         }
-        console.log(req.body.item.order[0]);
 
         transporter.sendMail(mailOptions,(err,info)=>{
             if(err){

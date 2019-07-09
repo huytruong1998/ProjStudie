@@ -1,6 +1,6 @@
 import isEmpty from '../validation/is-empty';
 
-import { SET_CURRENT_USER,GET_PROFILE_INFO } from '../action/types';
+import { SET_CURRENT_USER, GET_PROFILE_INFO, CLEAR_PROFILE } from '../action/types';
 
 
 const initialState = {
@@ -22,6 +22,11 @@ export default function (state = initialState, action) {
                 ...state,
                 profile: action.payload
             }; 
+        case CLEAR_PROFILE:
+            return{
+                ...state,
+                profile:{}
+            }
         default:
             return state;
     }
