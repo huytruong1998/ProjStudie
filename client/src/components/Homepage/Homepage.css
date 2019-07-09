@@ -196,7 +196,19 @@ text-decoration: line-through;
     margin-right: 10px;
     color: #aaaaaa;
 }
+/*OFFER*/
+.offer-section{
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(400px,1fr));
+    justify-items: center;
+}
+.offer-click{
+    width: 400px;
+    height: 225px;
+    background: gray;
 
+}
 
 /*mobile*/
 
@@ -211,3 +223,4 @@ text-decoration: line-through;
         padding: 0 40px;
     }
 }
+
