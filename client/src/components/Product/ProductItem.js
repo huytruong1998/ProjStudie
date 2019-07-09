@@ -35,7 +35,6 @@ class ProductItem extends Component {
             price:  this.props.product.product[0].price,
             name: this.props.product.product[0].name,
             discount: this.props.product.product[0].discount,
-            type: this.props.product.product[0].type,
             brand: this.props.product.product[0].brand,
             description: this.props.product.product[0].description,
             image: this.props.product.product[0].image,
@@ -128,14 +127,13 @@ class ProductItem extends Component {
         this.props.getallProduct();
     }
     render() {
-        let imageproduct, productbrand, showproductprice, productprice, productname, cartprice, shippingprice, productdesc,buyalert,buydeny;
-        let stocknumber;
-
+        let imageproduct, productbrand, showproductprice, productprice, productname, cartprice, shippingprice, productdesc,buyalert,buydeny,buyprofile;
+        let stocknumber, popularitem;
+        
         const products = _.take(_.sortBy(this.props.product.products, (product) => {
             return parseInt(product.sold);
         }).reverse(), 4)
-        let popularitem;
-
+        
         popularitem = _.map(products, (product, index) => {
             return (
                 <Link key={index} style={{ textDecoration: 'none' }} to={`/product/${product.id}`}>
@@ -165,6 +163,30 @@ class ProductItem extends Component {
             productname = this.props.product.product[0].name;
             productdesc = this.props.product.product[0].description;
             productbrand = <a href="#">{this.props.product.product[0].brand}</a>;
+
+            buyprofile = <Dialog
+                open={this.state.openbuynow}
+                onClose={() => this.handleClose()}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"WARNING !!!"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        You need your location?
+                        Please update your profile
+                            </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => this.handleClose()} color="primary">
+                        Cancel
+                            </Button>
+                    <Button color="primary" autoFocus><Link to={`/profile/${this.props.auth.user.id}`}>
+                        Profile
+                    </Link>
+                    </Button>
+                </DialogActions>
+            </Dialog>
             buyalert = <Dialog
                 open={this.state.openbuynow}
                 onClose={() => this.handleClose()}
@@ -243,6 +265,7 @@ class ProductItem extends Component {
             
         }
         return (
+            
             <div className='product-container'>
                 <div style={{marginBottom:'100px'}} className='products-style-grid' >
                     {imageproduct}
@@ -288,7 +311,7 @@ class ProductItem extends Component {
                     </div>
                 </div>
 
-                <div className="popular-section">
+                <div className="popular-section" >
                     <h2>BEST SELLER</h2>
                 </div>
 
@@ -306,7 +329,8 @@ class ProductItem extends Component {
 const mapStateToProps = state => ({
     product: state.product,
     cart: state.cart,
-    auth: state.auth
+    auth: state.auth,
+    profile:state.auth.profile
 });
 
 export default connect(

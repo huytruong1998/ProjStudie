@@ -38,9 +38,7 @@ module.exports = function validateAddProduct(data) {
         errors.stocks = 'Stock number is invalid';
     }
 
-    if (Validator.isEmpty(data.image)) {
-        errors.image = 'Image number is invalid';
-    }
+
 
     return {
         errors,

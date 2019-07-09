@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_ERRORS, GET_PROFILE_INFO } from './types';
+import { GET_ERRORS, GET_PROFILE_INFO, CLEAR_PROFILE } from './types';
 
 export const getallProfile = (id) => (dispatch) => {
     axios
@@ -25,3 +25,8 @@ export const editprofile = (profiledata, id) => (dispatch) => {
             })
         );
 }
+
+export const clearProfile = ()  => ({
+    type: CLEAR_PROFILE,
+    payload: {}
+});

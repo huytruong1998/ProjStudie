@@ -6,6 +6,7 @@ import { getallProduct } from '../../action/products';
 import clothes from '../img/clothes.png';
 import accessories from '../img/accessories.png';
 import _ from 'lodash';
+import SingleProduct from '../common/SingleProduct';
 
 import wintergear from '../img/wintergear.jpg';
 class Homepage extends Component {
@@ -21,23 +22,7 @@ class Homepage extends Component {
 
         popularitem = _.map(products, (product, index) => {
                 return (
-                    <Link key={index} className='line-bottom' style={{ textDecoration: 'none' }} to={`/product/${product.id}`}>
-                        <div className="product-popular-col">
-
-                            <div style={{ backgroundImage: `url(${product.image})`, backgroundColor: 'white' }} className="product-popular-col-img">
-                                {product.discount !== null ? <div className='discount-on-product'>
-                                    -{product.discount * 100}%
-                            </div> : null}
-                            </div>
-                            <div className="product-description">
-                                <span style={{ color: '#767676' }} onClick={() => this.setState({ filter: product.brand })}>{product.brand}</span>
-                                <h6 style={{ color: 'black' }}><b>{product.name}</b> </h6>
-                                {product.discount !== null ? (<span className='original-price'>{parseFloat(product.price).toFixed(2)} €</span>) : null}
-                                {product.discount !== null ? (<span style={{ color: 'red' }} >{(parseFloat(product.price) * (1 - parseFloat(product.discount))).toFixed(2)} €</span>) : (<span style={{ color: 'black' }}>{parseFloat(product.price).toFixed(2)}€</span>)}
-                                <br />
-                            </div>
-                        </div>
-                    </Link>
+                    <SingleProduct key={index} image={product.image} productid={product.id} brand={product.brand} discount={product.discount} price={product.price} name={product.name} />
                 )
         })
         
@@ -51,6 +36,14 @@ class Homepage extends Component {
                         <button>SHOP NOW</button>
                     </div>
                 </div>
+                {/* <div className='offer-section'>
+                    <div className='offer-click'>
+
+                    </div>
+                    <div className='offer-click'>
+
+                    </div>
+                </div> */}
 
 
                 <div className="item-section">

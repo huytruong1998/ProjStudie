@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser} from '../../action/authActions';
+import { clearProfile} from '../../action/profile';
 
 class NavBar extends Component {
     constructor(){
@@ -15,6 +16,7 @@ class NavBar extends Component {
 
     logoutUser(){
         this.props.logoutUser();
+        this.props.clearProfile();
     }
 
     onToggleMenu(){
@@ -65,5 +67,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    {logoutUser}
+    { logoutUser, clearProfile}
 )(NavBar);

@@ -207,7 +207,7 @@ class Cart extends Component {
                             <h4>{product.name}</h4>
                             <p>{product.brand}</p>
                             <p>{product.discount !== null ? <span className='original-price'>{product.price.toFixed(2)}€</span>:null } <span style={product.discount !==null ? {color:'red'}:null}>{(product.price*(1-product.discount)).toFixed(2)}€</span> </p>
-                            <a href="#" style={{ color: 'red' }} onClick={() => this.Removeproduct(product.productid)}><b>Remove</b></a>
+                            <a href='/cart' style={{ color: 'red' }} onClick={() => this.Removeproduct(product.productid)}><b>Remove</b></a>
                         </div>
                         <div className="priceqty">
                             <div className="proprice">

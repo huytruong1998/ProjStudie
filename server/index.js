@@ -10,13 +10,19 @@ const passport = require('passport');
 const users = require('./api/auth/users');
 const order = require('./api/order/order');
 const products = require('./api/product/products');
-
+const ejs = require('ejs');
 var db = require('./database')
 
 const ENV = process.env.NODE_ENV;
 const PORT = process.env.NODE_ENV || 5000;
-
 const app = express();
+//EJS
+app.set('view engine','ejs'); 
+
+//Public folder
+app.use('/uploads',express.static('uploads'));
+
+
 app.use(express.json());
 app.use(express.urlencoded({extended:false}))
 
@@ -40,7 +46,6 @@ const strategy = new JwtStrategy(opts, (payload, next) => {
 
 passport.use(strategy);
 app.use(passport.initialize());
-app.use(express.static('./upload'))
 app.use(morgan('dev'));
 
 app.use((req, res, next) => {

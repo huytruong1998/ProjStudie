@@ -12,16 +12,41 @@ const validateCheckStockInput = require('../../validation/checkstock');
 const _ = require('lodash');
 const multer = require('multer');
 
-const router = express.Router();
-//Set storage engine
+
 const storage = multer.diskStorage({
-    destination: './upload',
-    filename: function(req,file,cb){
-        cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    destination:function(req,file,cb){
+        cb(null,'uploads/')
+    },
+    filename:function(req,file,cb){
+        cb(null, Date.now() + file.originalname);
     }
 })
+
+const upload = multer({ storage: storage }) 
+
+const fileFilter = (req,file,cb)=>{
+    //reject a file
+    if(file.minetype ==='image/jpeg'|| file.minetype==='image/png'){
+        cb(null, true);
+        
+    }else{
+        cb(null, false);
+    }
+    
+}
+
+
+const router = express.Router();
+//Set storage engine
+
 //Init upload
-const upload = multer({ storage: storage })
+router.post('/testimage',upload.single('image'),(req,res,next)=>{
+    // const imagepath = req.headers.host + '/' + req.file.path;
+     console.log(req.body.image);
+    
+})
+
+
 router.get('/showallproducts', (req,res) =>{
     Product.showallproducts(function(err,products){
         if(err){
@@ -40,15 +65,18 @@ router.get('/:id', (req, res) => {
     })
 })
 
-router.post('/addproducts',(req,res) =>{
+router.post('/addproducts', upload.single('image'),(req,res) =>{
     const { errors, isValid } = validateAddProduct(req.body);
 
     // Check Validation
     if (!isValid) {
         return res.status(400).json(errors);
     }
+    
+    const imagepath = 'http://' + req.headers.host + '/' + req.file.path;
+    
     const uniqueID = uniqueString();
-    Product.addproduct(uniqueID, req.body.name, req.body.price, req.body.brand, req.body.type, req.body.stocks, req.body.image,req.body.tag,req.body.discount,req.body.description,req.body.country, (err, product) => {
+    Product.addproduct(uniqueID, req.body.name, req.body.price, req.body.brand, req.body.type, req.body.stocks, imagepath,req.body.tag,req.body.discount,req.body.description,req.body.country, (err, product) => {
         if (err.length = 0) {
             return res.json(err)
         } else {
@@ -58,10 +86,6 @@ router.post('/addproducts',(req,res) =>{
     })
 })
 
-router.post('/testimage', upload.single('file'),(req,res)=>{
-    console.log(req.file);
-    es.send("file saved on server");
-})
 
 
 router.post('/deleteproducts', (req,res)=>{
@@ -86,13 +110,31 @@ router.post('/:id/buyproduct',(req,res)=>{
 })
 
 
-router.post('/:id/admin/edit',(req,res)=>{
-    Product.editproduct(req.params.id, req.body.name, req.body.price, req.body.brand, req.body.discount, req.body.type, req.body.description, req.body.country, req.body.image, req.body.tag, req.body.stocks, (err, product) => {
-        if (err) {
-            return res.json(err);
-        }
-        return res.json(product);
-    })
+router.post('/:id/admin/edit', upload.single('image'),(req,res)=>{
+    const discountnull = req.body.discount;
+    if (req.file !== undefined) {
+       const imagepath = 'http://' + req.headers.host + '/' + req.file.path;
+    }
+    
+
+    if(req.file !== undefined){
+       const imagepath = 'http://' + req.headers.host + '/' + req.file.path;
+        Product.editproduct(req.params.id, req.body.name, req.body.price, req.body.brand, discountnull, req.body.type, req.body.description, req.body.country, imagepath, req.body.tag, req.body.stocks, (err, product) => {
+            if (err) {
+                return res.json(err);
+            }
+            return res.json(product);
+        })   
+    }else{
+        const imagepath = req.body.image;
+        Product.editproduct(req.params.id, req.body.name, req.body.price, req.body.brand, discountnull, req.body.type, req.body.description, req.body.country, imagepath, req.body.tag, req.body.stocks, (err, product) => {
+            if (err) {
+                return res.json(err);
+            }
+            return res.json(product);
+        })
+    }
+    
 })
 
 router.post('/checkstock',(req,res)=>{
