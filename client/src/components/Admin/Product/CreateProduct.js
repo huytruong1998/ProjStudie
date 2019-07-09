@@ -20,6 +20,7 @@ class CreateProduct extends Component {
             image: '',
             tag: 'equipment',
             stocks: '',
+            imageFile:null,
             errors: {}
         }
         this.onChange = this.onChange.bind(this);
@@ -30,20 +31,39 @@ class CreateProduct extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
+    FileChangeHandler = (event) => {
+        this.setState({ imageFile: event.target.files[0] })
+    }
+
     CreateProduct(){
-        const productdata = {
-            name: this.state.name,
-            brand: this.state.brand,
-            type: this.state.type,
-            country: this.state.country,
-            description: this.state.description,
-            discount: (this.state.discount === 0) ? null : this.state.discount / 100,
-            image: this.state.image,
-            price: this.state.price,
-            tag: this.state.tag,
-            stocks: this.state.stocks
-        }
-        this.props.addproduct(productdata)
+        const { imageFile } = this.state
+        const formData = new FormData();
+       
+        formData.append(
+                'image', imageFile)
+        formData.append(
+            'name', this.state.name)
+        formData.append(
+            'brand', this.state.brand)
+        formData.append(
+            'type', this.state.type)
+        formData.append(
+            'country', this.state.country)
+        formData.append(
+            'description', this.state.description)
+
+        formData.append(
+            'discount', (this.state.discount === 0) ? null : this.state.discount / 100)
+
+        formData.append(
+            'price', this.state.price)
+        formData.append(
+            'tag', this.state.tag)
+        formData.append(
+            'stocks', this.state.stocks)
+        this.props.addproduct(formData)
+        
+        
         
     }
 
@@ -150,12 +170,8 @@ class CreateProduct extends Component {
                                 <div className="invalid-feedback">{errors.stocks}</div>
                             )} </p>
                         <span>Image url</span>
-                        <p><input type="text" className={classnames('form-control form-control-lg', {
-                            'is-invalid': errors.image
-                        })} placeholder='image' name='image' onChange={this.onChange} value={this.state.image} />
-                            {errors.image && (
-                                <div className="invalid-feedback">{errors.image}</div>
-                            )} </p>
+                        <p><input type='file' name='image' onChange={this.FileChangeHandler} />
+                        </p>
                         <button className='create-product' onClick={()=>this.CreateProduct()}>Create New</button>
                     </div>
                 </div>

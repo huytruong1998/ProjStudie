@@ -15,6 +15,15 @@ export const getallProduct = () => (dispatch) => {
         }));
 };
 
+export const deleteproduct = (id) =>(dispatch)=>{
+    axios
+        .post(`api/products/deleteproducts`,id)
+        .catch(err => dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+        }));
+}
+
 export const getproduct = (id) => (dispatch) =>{
     axios
         .get(`/api/products/${id}`)
@@ -31,6 +40,18 @@ export const getproduct = (id) => (dispatch) =>{
             })
         );
 }
+
+export const uploadimage = (ImageData)=>(dispatch)=>{
+    axios
+        .post(`/api/products/testimage`, ImageData)
+        .catch(err =>
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        );
+}
+
 
 export const buyproduct = (buyData) => (dispatch) => {
     axios

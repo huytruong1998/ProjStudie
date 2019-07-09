@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Admin.css';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getallProduct, buyproduct } from '../../action/products';
+import { getallProduct, buyproduct, deleteproduct } from '../../action/products';
 import { getallorder, changestatus} from '../../action/order';
 import _ from 'lodash';
 import { Link } from "react-router-dom";
@@ -26,6 +26,14 @@ class Admin extends Component {
         if (nextProps.orders.orders === this.props.orders.orders){
             this.props.getallorder();
         }
+    }
+
+    deleteproduct(id){
+        const productdata = {
+            productid: id
+        }
+        this.props.deleteproduct(productdata);
+        window.location.reload(); 
     }
 
     slectOrder(id){
@@ -90,7 +98,7 @@ class Admin extends Component {
                         <span>Stocks:{product.stocks}</span><br />
                         <span>Discount:{product.discount*100}%</span><br />
                         <span>Sold:{product.sold * 1}</span><br />
-                        <button>Delete</button>
+                        <button onClick={()=>this.deleteproduct(product.id)}>Delete</button>
                         <Link to={`/product/admin/${product.id}`}><button>EDIT</button></Link>
                     </div>
                     
@@ -127,7 +135,7 @@ class Admin extends Component {
                                 <div className='row'>
                                     {order.status === 'new' ? <button onClick={() => this.statuspending(order.orderid)}>Deliver</button> : null}
                                     {order.status === 'pending' ? <button onClick={() => this.statusfinnished(order.orderid,order.item)}>Finnished</button> : null}
-                                    {order.status === 'finnished' ? <button onClick={() => this.orderdelete(order.orderid)}>DELETE</button> : null}
+                                    {order.status === 'finnished' ? <button onClick={() => this.orderdelete(order.orderid)}>DELETE</button> : (order.status === 'new' || order.status === 'pending') ? <button onClick={() => this.orderdelete(order.orderid)}>CANCEL ORDER</button> : null}
 
                                 </div>
                             </div>
@@ -209,4 +217,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps, { getallProduct, buyproduct, changestatus, getallorder})(Admin);
+export default connect(mapStateToProps, { getallProduct, deleteproduct, buyproduct, changestatus, getallorder})(Admin);
