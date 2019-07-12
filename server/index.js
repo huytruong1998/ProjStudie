@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const passport = require('passport');
-
+const path = require('path');
 const users = require('./api/auth/users');
 const order = require('./api/order/order');
 const products = require('./api/product/products');
@@ -28,7 +28,7 @@ app.use(express.urlencoded({extended:false}))
 
 const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'secret'
+    secretOrKey: process.env.SECRET_OR_KEY
     // process.env.SECRET_OR_KEY
 };
 const strategy = new JwtStrategy(opts, (payload, next) => {
@@ -62,6 +62,17 @@ app.use('/api/users', users);
 app.use('/api/products', products);
 app.use('/api/order', order);
 
+
+//Serve static asset in production
+
+if(process.env.NODE_ENV === 'production'){
+     //Set static folder
+     app.use(express.static('client/build'));
+
+     app.get('*', (req,res)=>{
+         res.sendFile(path.resolve(__dirname,'client','build','index.html'))
+     })
+}
 app.listen(PORT, ()=>{
     console.log(`Listening on port ${PORT}`);
 })
