@@ -1,4 +1,4 @@
-const path = require('path');
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const morgan = require('morgan');
@@ -28,7 +28,7 @@ app.use(express.urlencoded({extended:false}))
 
 const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: process.env.SECRET_OR_KEY
+    secretOrKey: process.env.SECRET_OR_KEY || 'secret'
     // process.env.SECRET_OR_KEY
 };
 const strategy = new JwtStrategy(opts, (payload, next) => {
