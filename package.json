@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Full Stack App",
   "main": "index.js",
+  "engines": {
+    "node": "10.16.0"
+  },
   "scripts": {
     "server": "nodemon server",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
