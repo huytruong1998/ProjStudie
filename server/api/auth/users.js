@@ -104,7 +104,7 @@ router.post('/login', (req, res) => {
                         role: user[0].role
                     };
 
-                    jwt.sign(payload, process.env.SECRET_OR_KEY, { expiresIn: 3600 }, (err, token) => {
+                    jwt.sign(payload, process.env.SECRET_OR_KEY || 'secret', { expiresIn: 3600 }, (err, token) => {
                         res.json({
                             success: true,
                             token: `Bearer ${token}`
