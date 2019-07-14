@@ -173,7 +173,7 @@ class ProductItem extends Component {
                 <DialogTitle id="alert-dialog-title">{"WARNING !!!"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        You need your location?
+                        You need your location ?
                         Please update your profile
                             </DialogContentText>
                 </DialogContent>
