@@ -9,7 +9,7 @@
     "node-pre-gyp": "0.13.0"
   },
   "scripts": {
-    "start": "npm server",
+    "start": "node server",
     "server": "nodemon server",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "client": "npm start --prefix client",
