@@ -58,11 +58,11 @@ router.post('/neworder',(req,res)=>{
         <h3>Total: ${parseFloat(req.body.totalprice).toFixed(2)}€</h3>
         `
         const transporter = nodemailer.createTransport({
-            host: 'smtp.ethereal.email',
+            host: 'gmail',
             port: 587,
             auth: {
-                user: 'katheryn53@ethereal.email',
-                pass: 'nH9mRaB7x3fUZuveza'
+                user: 'truongquanghuy723027@gmail.com',
+                pass: 'process.env.ENV_VARIABLE'
             }
         });
         let mailOptions={

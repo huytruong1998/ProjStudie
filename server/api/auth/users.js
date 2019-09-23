@@ -1,6 +1,6 @@
 const db = require('../../database')
 const express = require('express')
-
+const keys = require('../../../config/keys')
 const uniqueString = require('unique-string');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -13,11 +13,11 @@ const router = express.Router();
 
 router.get('/test', (req, res) => {
     db.query('SELECT * FROM public.authuser', (err, user) => {
-        if (err.error){
+        if (err.error) {
             return res.status(404).json(err)
         }
-          return res.json(user[0])
-        
+        return res.json(user[0])
+
     });
 });
 
@@ -36,15 +36,15 @@ router.post('/register', (req, res) => {
             bcrypt.genSalt(10, (err, salt) => {
                 bcrypt.hash(hashpass, salt, (err, hash) => {
                     if (err) throw err;
-                    hashpass = hash;  
-                    const uniqueID = uniqueString();          
+                    hashpass = hash;
+                    const uniqueID = uniqueString();
                     User.register(req.body.email, hashpass, uniqueID, (err, user) => {
                         if (err.length = 0) {
                             return res.json(err)
-                        }else{
+                        } else {
                             return res.json({ hash })
                         }
-                        
+
                     })
                 });
             });
@@ -56,8 +56,8 @@ router.post('/register', (req, res) => {
 });
 
 //add profile
-router.post('/addprofile/:id', passport.authenticate('jwt', { session: false }),(req,res)=>{
-    User.addprofile(req.params.id,req.body.profile, (err, profile) => {
+router.post('/addprofile/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+    User.addprofile(req.params.id, req.body.profile, (err, profile) => {
         if (err) {
             return res.json(err);
         }
@@ -66,9 +66,9 @@ router.post('/addprofile/:id', passport.authenticate('jwt', { session: false }),
 })
 
 //show profile
-router.get('/profileinfo/:id', passport.authenticate('jwt', { session: false }),(req,res)=>{
-    User.getprofile(req.params.id,(err,user)=>{
-        if(err){
+router.get('/profileinfo/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+    User.getprofile(req.params.id, (err, user) => {
+        if (err) {
             return res.json(err);
         }
         return res.json(user)
@@ -99,12 +99,12 @@ router.post('/login', (req, res) => {
             bcrypt.compare(req.body.password, user[0].password).then((isMatch) => {
                 if (isMatch) {
                     const payload = {
-                        id:  user[0].userid,
+                        id: user[0].userid,
                         email: user[0].email,
                         role: user[0].role
                     };
 
-                    jwt.sign(payload, process.env.SECRET_OR_KEY || 'secret', { expiresIn: 3600 }, (err, token) => {
+                    jwt.sign(payload, keys.secretOrKey, { expiresIn: 3600 }, (err, token) => {
                         res.json({
                             success: true,
                             token: `Bearer ${token}`

@@ -75,10 +75,6 @@ class AdminItem extends Component {
         const formData = new FormData();
         formData.append(
             'image', this.state.imageFile, this.state.imageFile.name);
-        
-        const productdata = {
-            image: formData
-        }
         this.props.uploadimage(formData);
     }
 
