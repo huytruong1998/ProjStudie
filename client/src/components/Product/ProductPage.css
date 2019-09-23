@@ -7,12 +7,7 @@
 
 }
 
-.full{
-    width: 80%;
-}
-
 .product-bar{
-   
     clear: right;
     width: 80%;
 }
@@ -106,4 +101,14 @@
     background: #b82b21;
     border:none;
     border-bottom: 2px solid gray;
+}
+
+@media(max-width: 991px){
+    .filter-bar{
+        width: 200px;
+    }
+
+    .product-bar{
+        width: 70%;
+    }
 }

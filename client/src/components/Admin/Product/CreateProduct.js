@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import '../Admin.css';
 import { connect } from 'react-redux';
 import { addproduct} from '../../../action/products';
-import isEmpty from '../../../validation/is-empty';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 

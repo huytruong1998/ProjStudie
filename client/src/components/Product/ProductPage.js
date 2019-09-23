@@ -27,10 +27,7 @@ class Product extends Component {
         this.props.getallProduct();
         if (this.props.location.state!== undefined){
             this.setState({ filter: this.props.location.state.type })
-        }
-        
-        
-        
+        }        
     }
     showAll = () =>{
         this.setState({filter: 'all'})
