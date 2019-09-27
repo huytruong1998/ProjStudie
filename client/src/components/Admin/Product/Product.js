@@ -7,24 +7,24 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 class AdminItem extends Component {
-    constructor(){
+    constructor() {
         super();
-        this.state={
-            name:'',
-            price:'',
-            discount:0,
-            brand:'',
-            type:'',
-            description:'',
-            country:'',
-            image:'',
-            tag:'',
-            stocks:'',
-            imageFile:null,
-            errors:{}
+        this.state = {
+            name: '',
+            price: '',
+            discount: 0,
+            brand: '',
+            type: '',
+            description: '',
+            country: '',
+            image: '',
+            tag: '',
+            stocks: '',
+            imageFile: null,
+            errors: {}
         }
         this.onChange = this.onChange.bind(this);
-        
+
     }
 
     onChange(e) {
@@ -35,7 +35,7 @@ class AdminItem extends Component {
         this.props.getproduct(this.props.match.params.id);
     }
 
-    componentWillReceiveProps(nextProps){
+    componentWillReceiveProps(nextProps) {
         if (nextProps.product.product) {
             const product = nextProps.product.product[0];
             // If product field doesnt exist, make empty string
@@ -46,9 +46,10 @@ class AdminItem extends Component {
             product.description = !isEmpty(product.description) ? product.description : '';
             product.discount = !isEmpty(product.discount) ? product.discount : null;
             product.image = !isEmpty(product.image) ? product.image : null;
-            product.price = !isEmpty(product.price)  ? product.price : null;
+            product.price = !isEmpty(product.price) ? product.price : null;
             product.tag = !isEmpty(product.tag) ? product.tag : '';
             product.stocks = !isEmpty(product.stocks) ? product.stocks : 0;
+
 
             this.setState({
                 name: product.name,
@@ -56,7 +57,7 @@ class AdminItem extends Component {
                 type: product.type,
                 country: product.country,
                 description: product.description,
-                discount: product.discount*100,
+                discount: product.discount * 100,
                 image: product.image,
                 price: product.price,
                 tag: product.tag,
@@ -67,24 +68,24 @@ class AdminItem extends Component {
         }
     }
 
-    FileChangeHandler =(event) =>{
-        this.setState({imageFile:event.target.files[0]})
+    FileChangeHandler = (event) => {
+        this.setState({ imageFile: event.target.files[0] })
     }
 
-    FileUploadHandler =()=>{
+    FileUploadHandler = () => {
         const formData = new FormData();
         formData.append(
             'image', this.state.imageFile, this.state.imageFile.name);
         this.props.uploadimage(formData);
     }
 
-    editproduct(id){
-        const {imageFile} = this.state
+    editproduct(id) {
+        const { imageFile } = this.state
         const formData = new FormData();
-        if(imageFile ===null){
+        if (imageFile === null) {
             formData.append(
                 'image', this.state.image)
-        }else{
+        } else {
             formData.append(
                 'image', imageFile)
         }
@@ -98,23 +99,23 @@ class AdminItem extends Component {
             'country', this.state.country)
         formData.append(
             'description', this.state.description)
-            
         formData.append(
-                    'discount', this.state.discount / 100)
-        
+            'discount', this.state.discount / 100);
+
+
         formData.append(
             'price', this.state.price)
         formData.append(
             'tag', this.state.tag)
         formData.append(
             'stocks', this.state.stocks)
-        this.props.editproduct(formData,id);
-        
+        this.props.editproduct(formData, id);
+
 
     }
     render() {
         const product = this.props.product.product;
-        const {errors} = this.state;
+        const { errors } = this.state;
 
         let propertype;
 
@@ -148,13 +149,13 @@ class AdminItem extends Component {
                 <option value=" "> </option>
             </select>
         }
-        if(product === null){
+        if (product === null) {
             return <h1>Loading</h1>
-        }else{
+        } else {
             return <div className="admin-container">
                 <div className="edit-item-style">
                     <div className="imgdisplay">
-                        <img src={this.state.image} alt=""  style={{width: 300}}/>
+                        <img src={this.state.image} alt="" style={{ width: 300 }} />
                     </div>
                     <div>
                         <span>Name</span>
@@ -219,15 +220,15 @@ class AdminItem extends Component {
                             {errors.image && (
                                 <div className="invalid-feedback">{errors.image}</div>
                             )} </p>
-                            <p><input type='file' name='image' onChange={this.FileChangeHandler}/>
-                            </p>
-                        <button onClick={() =>this.editproduct(this.props.match.params.id)}>APPLY</button>
+                        <p><input type='file' name='image' onChange={this.FileChangeHandler} />
+                        </p>
+                        <button onClick={() => this.editproduct(this.props.match.params.id)}>APPLY</button>
                     </div>
                 </div>
             </div>
         }
-        
-        
+
+
     }
 }
 
@@ -242,5 +243,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { getproduct, buyproduct, addtocart, editproduct, uploadimage}
+    { getproduct, buyproduct, addtocart, editproduct, uploadimage }
 )(AdminItem);
