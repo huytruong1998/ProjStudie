@@ -16,16 +16,17 @@ const SingleProduct = ({
             <div className="product-popular-col">
 
                 <div style={{ backgroundImage: `url(${image})`, backgroundColor: 'white' }} className="product-popular-col-img">
-                    {discount === null ? null : discount === '0' ? null: <div className='discount-on-product'>
+                    {discount === null ? null : discount === '0' ? null : <div className='discount-on-product'>
                         -{discount * 100}%
                             </div>}
                 </div>
                 <div className="product-description">
                     <span style={{ color: '#767676' }} onClick={() => this.setState({ filter: brand })}>{brand}</span>
                     <h6 style={{ color: 'black' }}><b>{name}</b> </h6>
-                    {discount !== null ? (<span className='original-price'>{parseFloat(price).toFixed(2)} €</span>) : null}
-                    {discount !== null ? (<span style={{ color: 'red' }} >{(parseFloat(price) * (1 - parseFloat(discount))).toFixed(2)} €</span>) : (<span style={{ color: 'black' }}>{parseFloat(price).toFixed(2)}€</span>)}
+                    {discount === null ? null : discount === '0' ? null : (<span className='original-price'>{parseFloat(price).toFixed(2)} €</span>)}
+                    {discount === null ? (<span style={{ color: 'black' }}>{parseFloat(price).toFixed(2)}€</span>) : discount === '0' ? (<span style={{ color: 'black' }}>{parseFloat(price).toFixed(2)}€</span>) : (<span style={{ color: 'red' }} >{(parseFloat(price) * (1 - parseFloat(discount))).toFixed(2)} €</span>)}
                     <br />
+                    {/* (<span className='original-price'>{parseFloat(price).toFixed(2)} €</span>) */}
                 </div>
             </div>
         </Link>
