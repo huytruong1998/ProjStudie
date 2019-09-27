@@ -14,7 +14,7 @@ const ejs = require('ejs');
 var db = require('./database')
 
 const ENV = process.env.NODE_ENV;
-const PORT = process.env.NODE_ENV || 5000;
+const PORT = process.env.PORT || 5000;
 const app = express();
 //EJS
 app.set('view engine', 'ejs');
