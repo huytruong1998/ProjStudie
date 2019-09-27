@@ -65,7 +65,7 @@ router.post('/neworder', (req, res) => {
             port: 587,
             auth: {
                 user: 'huytest59900@gmail.com',
-                pass: keys.password
+                pass: keys.password || process.env.MAIL_PASS
             }
         });
         // let mailOptions = {
