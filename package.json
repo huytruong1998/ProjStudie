@@ -9,6 +9,8 @@
     "node-pre-gyp": "0.13.0"
   },
   "scripts": {
+    "client-install": "npm install --prefix client",
+    "start": "node server.js",
     "server": "nodemon server",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "client": "npm start --prefix client",
