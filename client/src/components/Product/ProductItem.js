@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import { getproduct, buyproduct, getallProduct, addtocart } from '../../action/products';
-import {makeorder} from '../../action/order';
+import { makeorder } from '../../action/order';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -19,7 +19,7 @@ class ProductItem extends Component {
         super();
         this.state = {
             quantity: 1,
-            openbuynow:false
+            openbuynow: false
         }
         this.onChange = this.onChange.bind(this);
     }
@@ -28,11 +28,11 @@ class ProductItem extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    AddCart(id,quantity){
+    AddCart(id, quantity) {
         const cartData = {
             productid: id,
             quantity: quantity,
-            price:  this.props.product.product[0].price,
+            price: this.props.product.product[0].price,
             name: this.props.product.product[0].name,
             discount: this.props.product.product[0].discount,
             brand: this.props.product.product[0].brand,
@@ -43,10 +43,10 @@ class ProductItem extends Component {
         }
         const cartget = this.props.cart.cart;
         let check = false;
-        if (quantity >= this.props.product.product[0].stocks){
+        if (quantity >= this.props.product.product[0].stocks) {
             console.log('There are not enough in stocks');
-            
-        }else{
+
+        } else {
             if (cartget !== null) {
                 _.map(cartget, (item, index) => {
                     if (item.productid === id) {
@@ -66,11 +66,11 @@ class ProductItem extends Component {
 
             }
         }
-        
-        
+
+
     }
 
-    BuyItem(quantity,totalprice){
+    BuyItem(quantity, totalprice) {
         const orderArray = { order: [] };
         let orderData;
         const buyData = {
@@ -110,7 +110,7 @@ class ProductItem extends Component {
     }
 
     handleClose() {
-        this.setState({openbuynow:false})
+        this.setState({ openbuynow: false })
     }
 
     componentDidUpdate(prevProps) {
@@ -127,13 +127,13 @@ class ProductItem extends Component {
         this.props.getallProduct();
     }
     render() {
-        let imageproduct, productbrand, showproductprice, productprice, productname, cartprice, shippingprice, productdesc,buyalert,buydeny,buyprofile;
+        let imageproduct, productbrand, showproductprice, productprice, productname, cartprice, shippingprice, productdesc, buyalert, buydeny, buyprofile;
         let stocknumber, popularitem;
-        
+
         const products = _.take(_.sortBy(this.props.product.products, (product) => {
             return parseInt(product.sold);
         }).reverse(), 4)
-        
+
         popularitem = _.map(products, (product, index) => {
             return (
                 <Link key={index} style={{ textDecoration: 'none' }} to={`/product/${product.id}`}>
@@ -156,8 +156,8 @@ class ProductItem extends Component {
             )
         })
         if (this.props.product.product === null) {
-            imageproduct= <div><h1>Loading Image ...</h1></div>
-        }else{
+            imageproduct = <div><h1>Loading Image ...</h1></div>
+        } else {
             imageproduct = <div style={{ backgroundImage: `url(${this.props.product.product[0].image})` }} className="product-image">
             </div>;
             productname = this.props.product.product[0].name;
@@ -228,46 +228,46 @@ class ProductItem extends Component {
                         Cancel
                             </Button>
                     <Button color="primary" autoFocus><Link to='/login'>
-                            Log In
+                        Log In
                     </Link>
-                            </Button>
+                    </Button>
                     <Button color="primary" autoFocus><Link to='/signup'>
                         Sign Up
                     </Link>
-                            </Button>
+                    </Button>
                 </DialogActions>
             </Dialog>
 
-            if (this.props.product.product[0].discount !== null){
-                productprice = this.props.product.product[0].price * (1- this.props.product.product[0].discount)
-                showproductprice = <p><span className='original-price'>{parseFloat(this.props.product.product[0].price).toFixed(2)} €</span><span style={{color:'red'}}>{parseFloat(productprice).toFixed(2)} €</span></p>
-            }else{
+            if (this.props.product.product[0].discount !== null) {
+                productprice = this.props.product.product[0].price * (1 - this.props.product.product[0].discount)
+                showproductprice = <p><span className='original-price'>{parseFloat(this.props.product.product[0].price).toFixed(2)} €</span><span style={{ color: 'red' }}>{parseFloat(productprice).toFixed(2)} €</span></p>
+            } else {
                 productprice = this.props.product.product[0].price;
                 showproductprice = <p>{parseFloat(productprice).toFixed(2)} €</p>
             }
-            if (this.props.product.product[0].stocks >= 10){
-                stocknumber = <p style={{color:'green'}}>In Stock</p>
-            } else if (this.props.product.product[0].stocks < 10 && this.props.product.product[0].stocks >0){
+            if (this.props.product.product[0].stocks >= 10) {
+                stocknumber = <p style={{ color: 'green' }}>In Stock</p>
+            } else if (this.props.product.product[0].stocks < 10 && this.props.product.product[0].stocks > 0) {
                 stocknumber = <p>{this.props.product.product[0].stocks} left in stocks</p>
             }
 
-            if(this.state.quantity >=1){
-                if (this.props.product.product[0].discount !== null){
-                    cartprice = <h3 style={{color:"red"}}>{parseFloat(productprice * this.state.quantity).toFixed(2)} €</h3>
-                }else{
+            if (this.state.quantity >= 1) {
+                if (this.props.product.product[0].discount !== null) {
+                    cartprice = <h3 style={{ color: "red" }}>{parseFloat(productprice * this.state.quantity).toFixed(2)} €</h3>
+                } else {
                     cartprice = <h3 >{parseFloat(productprice * this.state.quantity).toFixed(2)} €</h3>
                 }
-            
-            }else{
+
+            } else {
                 cartprice = <p>Quanity is not valid</p>
             }
             shippingprice = <p>Shipping: ${parseFloat(productprice * this.state.quantity * 0.05).toFixed(2)} (5%)</p>
-            
+
         }
         return (
-            
+
             <div className='product-container'>
-                <div style={{marginBottom:'100px'}} className='products-style-grid' >
+                <div style={{ marginBottom: '100px' }} className='products-style-grid' >
                     {imageproduct}
                     <div className="product-detail">
                         <h2><b>{productname}</b> </h2>
@@ -281,7 +281,7 @@ class ProductItem extends Component {
                             <h4>DESCRIPTION</h4>
                             <p>{productdesc}</p>
                         </div>
-                        
+
                     </div>
                     <div className="cart-option">
                         {cartprice}
@@ -303,9 +303,9 @@ class ProductItem extends Component {
                         <div className='AddtoCart'>
                             <button className='AddCartbutton' onClick={() => this.AddCart(this.props.product.product[0].id, this.state.quantity)}>Add to cart</button>
                         </div>
-                        
+
                         <div className='BuyNow'>
-                            <button className='BuyButton' onClick = {()=>this.handleClickOpen()}>Buy Now</button>
+                            <button className='BuyButton' onClick={() => this.handleClickOpen()}>Buy Now</button>
                             {this.props.auth.isAuthenticated === true ? buyalert : buydeny}
                         </div>
                     </div>
@@ -330,10 +330,10 @@ const mapStateToProps = state => ({
     product: state.product,
     cart: state.cart,
     auth: state.auth,
-    profile:state.auth.profile
+    profile: state.auth.profile
 });
 
 export default connect(
     mapStateToProps,
-    { getproduct, buyproduct, addtocart,getallProduct,makeorder}
+    { getproduct, buyproduct, addtocart, getallProduct, makeorder }
 )(ProductItem);
