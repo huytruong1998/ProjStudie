@@ -53,6 +53,6 @@
     "reactstrap": "^8.0.0",
     "sequelize": "^5.19.1",
     "unique-string": "^1.0.0",
-    "validator": "^10.11.0"
+    "validator": "^13.7.0"
   }
 }
